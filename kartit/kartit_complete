@@ -1,0 +1,13 @@
+#
+# Kartit bash completion script
+#
+# vim:ts=2:sw=2:et:
+#
+
+_kartit() {
+  COMPREPLY=($(bundle exec "kartit --autocomplete '${COMP_WORDS[*]}'"))
+  return 0
+}
+
+complete -F _kartit kartit
+

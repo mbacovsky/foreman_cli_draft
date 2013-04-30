@@ -1,0 +1,48 @@
+PATH
+  remote: .
+  specs:
+    kartit (0.0.1)
+      clamp
+
+PATH
+  remote: ../kartit-foreman
+  specs:
+    kartit_foreman (0.0.1)
+      awesome_print
+      foreman_api
+
+PATH
+  remote: ../kartit-katello
+  specs:
+    kartit_katello (0.0.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    awesome_print (1.1.0)
+    clamp (0.5.1)
+    coderay (1.0.6)
+    foreman_api (0.1.3)
+      json
+      oauth
+      rest-client (>= 1.6.1)
+    json (1.7.7)
+    method_source (0.8)
+    mime-types (1.23)
+    oauth (0.4.7)
+    pry (0.9.10)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.3.1)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    slop (3.3.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  kartit!
+  kartit_foreman!
+  kartit_katello!
+  pry

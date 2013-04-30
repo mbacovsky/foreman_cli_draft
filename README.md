@@ -1,0 +1,1 @@
+Foreman CLI design draft

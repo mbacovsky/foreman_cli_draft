@@ -1,0 +1,12 @@
+#! /usr/bin/env ruby
+
+# $:.unshift(File.expand_path("../../lib", __FILE__))
+# $:.unshift(File.expand_path("../../../kartit_foreman/lib", __FILE__))
+
+require 'rubygems'
+
+require 'kartit'
+require 'kartit_foreman'
+require 'kartit_katello'
+
+Kartit::MainCommand.run

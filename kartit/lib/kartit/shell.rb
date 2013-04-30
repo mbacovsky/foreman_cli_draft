@@ -1,0 +1,46 @@
+require 'kartit/abstract'
+require 'readline'
+
+module Kartit
+
+  class ShellCommand < AbstractCommand
+
+    def execute
+      Readline.completion_append_character = " "
+      Readline.completer_word_break_characters = ''
+      Readline.completion_proc = complete_proc
+
+      stty_save = `stty -g`.chomp
+
+      begin
+        while line = Readline.readline('kartit> ', true)
+          Kartit::MainCommand.run('kartit', line.split) unless line.start_with? 'shell'
+        end
+      rescue Interrupt => e
+        puts
+        system('stty', stty_save) # Restore
+        exit
+      end
+    end
+
+    private
+
+    def common_prefix(results)
+      results.delete_if{ |r| !r[0].start_with?(results[0][0][0]) }.length == results.length
+    end
+
+    def complete_proc
+      Proc.new do |cpl|
+        res = Kartit::MainCommand.autocomplete(cpl.split)
+        if res.length == 1 || common_prefix(res)
+          res.map { |r| r.delete_if{ |e| e == '' }.reverse.join(' ') }
+        else
+          res.map{ |e| e[0] }
+        end
+      end
+    end
+
+  end
+
+  Kartit::MainCommand.subcommand "shell", "Interactive Shell", Kartit::ShellCommand
+end
