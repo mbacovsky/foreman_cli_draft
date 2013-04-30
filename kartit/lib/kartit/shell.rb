@@ -32,6 +32,9 @@ module Kartit
     def complete_proc
       Proc.new do |cpl|
         res = Kartit::MainCommand.autocomplete(cpl.split)
+        # if there is one result or if results have common prefix
+        # readline tries to replace current input with results
+        # thus we should join the results with the start of the line
         if res.length == 1 || common_prefix(res)
           res.map { |r| r.delete_if{ |e| e == '' }.reverse.join(' ') }
         else
