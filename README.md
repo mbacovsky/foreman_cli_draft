@@ -15,7 +15,7 @@ My initial requirements are as follows:
 Design
 ------
 
-(design.png "Draft design")
+![Design draft](design.png)
 
 
 Technologies
