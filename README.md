@@ -32,13 +32,18 @@ For *Foreman* Commands development I can see three options
  - manually create everything (Katello CLI approach)
  - dynamic creation on the fly with option to exclude and manually define specific commands
 
+Sample working implementation you can find in this repo.
+
+ - [kartit] (https://github.com/mbacovsky/foreman_cli_draft/tree/master/kartit) gem contains generic CLI client
+ - [kartit-foreman] (https://github.com/mbacovsky/foreman_cli_draft/tree/master/kartit-foreman) gem contains Foreman related commands definition
+ - [kartit-katello] (https://github.com/mbacovsky/foreman_cli_draft/tree/master/kartit-katello) gem contains Katello related commands definition
 
 Technologies
 ------------
 
 ### CLI Framework
 
-There is plenty of CLI framework gems with varying features and quality on the Internet. I took into consideration Thor for its wide spread, Boson for its features being very close to our requirements and Clamp for its simplicity.
+There is plenty of CLI framework gems with varying features and quality on the Internet. I took into consideration [Thor][thor] for its wide spread, [Boson][boson] for its features being very close to our requirements and [Clamp][clamp] for its simplicity.
 
 #### Thor
 has well docummented features and good suport in the community. However the codebase was for me quite cryptic and really dificult to understand and extend. It seems good when you need what is built in. If you need something extra adding is time consuming or requires skills beyond mine.
@@ -60,7 +65,7 @@ I wanted to have one solution for Bash and shell autocompletion and started with
 
 
 ### Input/Output
-I didn't focus much on processing of input and output in the commands yet. For Foreman commands I'd like to keep it as similar to Katello output as possible. There are gems like highline and table_print that could make it easy.
+I didn't focus much on processing of input and output in the commands yet. For Foreman commands I'd like to keep it as similar to Katello output as possible. There are gems like highline and [table_print][table-p] that could make it easy.
 
 
 Usage
@@ -191,3 +196,9 @@ As it was said above output formating for foreman commands is still missing and 
     pulp           ok     1706ms
     pulp_auth      ok     618ms
 
+
+[cli-gems]: http://www.awesomecommandlineapps.com/gems.html "CLI related gems"
+[thor]:  https://github.com/wycats/thor "Thor homepage"
+[boson]: https://github.com/cldwalker/boson "Boson homepage"
+[clamp]: https://github.com/mdub/clamp "Clamp homepage"
+[table-p]: https://github.com/arches/table_print "table-print homepage"
