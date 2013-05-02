@@ -54,15 +54,9 @@ Technologies
 
 There is plenty of CLI framework gems with varying features and quality on the Internet. I took into consideration [Thor][thor] for its wide spread, [Boson][boson] for its features being very close to our requirements and [Clamp][clamp] for its simplicity.
 
-#### Thor
-has well docummented features and good suport in the community. However the codebase was for me quite cryptic and really dificult to understand and extend. It seems good when you need what is built in. If you need something extra adding is time consuming or requires skills beyond mine.
-
-#### Boson
-has good documentation, nice set of plugins available, live upstream and what makes it special for us is built in shell with autocompletion.
-What put it out of the game is lack of subcommands.
-
-#### Clamp
-besides similar features as Thor has it has minimalistic, clean and straghtforward codebase. It uses one class per command which can come handy if you need similar behavior for subset of commands. It was quite easy to add autocompletion and shell. And yes it is the winner for my CLI draft.
+To compare them I played with each of them for a while - _Thor_ has well docummented features and good suport in the community. However the codebase was for me quite cryptic and really dificult to understand and extend. It seems good when you need what is built in. If you need something extra adding is time consuming or requires skills beyond mine.
+_Boson_ has good documentation, nice set of plugins available, live upstream and what makes it special for us is built in shell with autocompletion. What put it out of the game is lack of subcommands.
+_Clamp_ has very similar features as Thor has but it has minimalistic, clean and straghtforward codebase. It uses one class per command which can come handy if you need similar behavior for subset of commands. It was quite easy to add autocompletion and shell. And yes it is the winner for my CLI draft.
 
 
 ### Shell
