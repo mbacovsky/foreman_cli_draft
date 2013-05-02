@@ -38,6 +38,15 @@ Sample working implementation you can find in this repo.
  - [kartit-foreman] (https://github.com/mbacovsky/foreman_cli_draft/tree/master/kartit-foreman) gem contains Foreman related commands definition
  - [kartit-katello] (https://github.com/mbacovsky/foreman_cli_draft/tree/master/kartit-katello) gem contains Katello related commands definition
 
+
+Pros and Cons
+--------------
+ - [+] same implementation language as the rest of the project
+ - [+] generic CLI, easy to extend by adding gems with commands
+ - [+] lightweight design
+ - [-] calling katello via *system* or need to create native Katello plugin
+
+
 Technologies
 ------------
 
