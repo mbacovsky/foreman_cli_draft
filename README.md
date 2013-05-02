@@ -59,6 +59,135 @@ For shell there is not so much options. There is IRB and similar like Ripl but I
 I wanted to have one solution for Bash and shell autocompletion and started with simple method recursively looking for endings in command tree. Simple bash wrapper call made it ready for use in bash. In shell-like env based on Readline I had dificulties with the fact that readline support autocompletion based on last word and there is no apparent way to take the context into account. I found some workaround but still looking for cleaner solution. Maybe Ripl + Bond are worth trying
 
 
+### Input/Output
+I didn't focus much on processing of input and output in the commands yet. For Foreman commands I'd like to keep it as similar to Katello output as possible. There are gems like highline and table_print that could make it easy.
+
 
 Usage
 -----
+And here follows short demo of the features this CLI draft offers
+
+### Help
+
+    $ kartit -u admin -p admin -h
+    Usage:
+        kartit [OPTIONS] SUBCOMMAND [ARGS] ...
+
+    Subcommands:
+        shell                         Interactive Shell
+        architecture                  Manipulate Foreman's architectures.
+        environment                   Manipulate Katello's environments.
+        ping                          Get the status of the katello server
+
+    Options:
+        -v, --verbose                 be verbose
+        -u, --username USERNAME       username to access the remote system
+        -p, --password PASSWORD       password to access the remote system
+        --version                     show version
+        --autocomplete LINE           Get list of possible endings
+        -h, --help                    print help
+
+
+    $ kartit -u admin -p admin architecture -h
+    Usage:
+        kartit architecture [OPTIONS] SUBCOMMAND [ARGS] ...
+
+    Subcommands:
+        list                          List foreman's architectures.
+
+    Options:
+        -h, --help                    print help
+
+
+### Foreman call
+
+As it was said above output formating for foreman commands is still missing and will be added later
+
+    $ kartit -u admin -p admin architecture list
+    [
+        [0] {
+            "architecture" => {
+                               "name" => "i386",
+                                 "id" => 5,
+                         "created_at" => "2012-06-27T17:21:16Z",
+                "operatingsystem_ids" => [],
+                         "updated_at" => "2012-06-27T17:21:16Z"
+            }
+        },
+        [1] {
+            "architecture" => {
+                               "name" => "ppc",
+                                 "id" => 9,
+                         "created_at" => "2012-07-31T12:19:26Z",
+                "operatingsystem_ids" => [],
+                         "updated_at" => "2012-07-31T12:19:26Z"
+            }
+        },
+        [2] {
+            "architecture" => {
+                               "name" => "x86_64",
+                                 "id" => 14,
+                         "created_at" => "2012-08-06T15:51:21Z",
+                "operatingsystem_ids" => [],
+                         "updated_at" => "2012-08-06T15:51:21Z"
+            }
+        }
+    ]
+
+
+### Katello call
+
+    $ kartit -u admin -p admin environment list --org ACME_Corporation
+    katello -u admin -p admin environment list --org ACME_Corporation
+    ------------------------------------------------------------------------------------------------------------
+                                              Environment List
+
+    ID Name    Label   Description Org              Prior Environment
+    ------------------------------------------------------------------------------------------------------------
+    1  Library Library None        ACME_Corporation None
+    2  Dev     Dev     None        ACME_Corporation Library
+    3  Prod    Prod    None        ACME_Corporation Dev
+
+### Autocompletion
+
+    $ kartit architecture
+    -h      --help  list
+    $ kartit architecture list -
+    -h      --help
+
+### Shell
+
+    $ kartit -u admin -p admin shell
+    kartit> -h
+    Usage:
+        kartit [OPTIONS] SUBCOMMAND [ARGS] ...
+
+    Subcommands:
+        shell                         Interactive Shell
+        architecture                  Manipulate Foreman's architectures.
+        environment                   Manipulate Katello's environments.
+        ping                          Get the status of the katello server
+
+    Options:
+        -v, --verbose                 be verbose
+        -u, --username USERNAME       username to access the remote system
+        -p, --password PASSWORD       password to access the remote system
+        --version                     show version
+        --autocomplete LINE           Get list of possible endings
+        -h, --help                    print help
+    kartit> ping
+    katello -u admin -p admin ping
+    -----------------------------------------------------------------------------------------------------------
+                                                  Katello Status
+
+    Status Service        Result Duration Message
+    -----------------------------------------------------------------------------------------------------------
+
+    FAIL
+    candlepin      ok     141ms
+    candlepin_auth ok     225ms
+    elasticsearch  ok     795ms
+    katello_jobs   FAIL   katello-jobs service not running
+    pulp           ok     1706ms
+    pulp_auth      ok     618ms
+
