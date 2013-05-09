@@ -8,12 +8,12 @@ module KartitKatello
       cml = args.join(' ')
       # binding.pry
       puts "katello -u %{username} -p %{password} %{cml}" % {
-        :username => Kartit::MainCommand.username,
-        :password => Kartit::MainCommand.password,
+        :username => @context[:username],
+        :password => @context[:password],
         :cml => cml }
       system "katello -u %{username} -p %{password} %{cml}" % {
-        :username => Kartit::MainCommand.username,
-        :password => Kartit::MainCommand.password,
+        :username => @context[:username],
+        :password => @context[:password],
         :cml => cml }
     end
   end
