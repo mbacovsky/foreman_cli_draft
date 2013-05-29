@@ -2,6 +2,9 @@ source "http://rubygems.org"
 
 gemspec
 
+gem 'terminal-table'
+gem 'highline'
+
 gem 'kartit', :path => '.'
 gem 'kartit_foreman', :path => '../kartit-foreman'
 gem 'kartit_katello', :path => '../kartit-katello'

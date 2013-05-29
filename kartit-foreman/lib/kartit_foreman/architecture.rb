@@ -1,6 +1,7 @@
 require 'kartit'
 require 'awesome_print'
 require 'foreman_api'
+require 'ostruct'
 
 module KartitForeman
 
@@ -16,7 +17,8 @@ module KartitForeman
   class Architecture < Kartit::AbstractCommand
     class ListCommand < ArchitectureCommand
       def execute
-        ap architecture.index[0]
+        list = architecture.index[0]
+        puts table('Architcture list', list)
       end
     end
 

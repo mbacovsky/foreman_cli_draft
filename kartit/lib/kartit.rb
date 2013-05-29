@@ -36,6 +36,7 @@ module Kartit
       @context[:username] = username
     end
 
+
   end
 
 end
