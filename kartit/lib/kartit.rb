@@ -1,5 +1,6 @@
 require 'kartit/version'
 require 'kartit/abstract'
+require 'kartit/settings'
 require 'pry'
 
 module Kartit

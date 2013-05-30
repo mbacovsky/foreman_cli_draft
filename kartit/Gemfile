@@ -6,4 +6,6 @@ gem 'kartit', :path => '.'
 gem 'kartit_foreman', :path => '../kartit-foreman'
 gem 'kartit_katello', :path => '../kartit-katello'
 
-gem 'pry'
+group :test do
+  gem 'minitest'
+end
