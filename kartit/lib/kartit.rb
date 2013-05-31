@@ -1,6 +1,12 @@
 require 'kartit/version'
 require 'kartit/abstract'
 require 'kartit/settings'
+require 'kartit/data_print_command'
+
+require 'kartit/output/output'
+require 'kartit/output/definition'
+require 'kartit/output/dsl'
+
 require 'pry'
 
 module Kartit
@@ -26,7 +32,7 @@ module Kartit
     end
 
     def execute
-      puts help
+
     end
 
     def password=(password)
