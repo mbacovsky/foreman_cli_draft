@@ -1,4 +1,4 @@
-require 'kartit/output/base_adapter'
+require 'kartit/output/adapter/base'
 
 module Kartit::Output
   class Output
@@ -8,8 +8,23 @@ module Kartit::Output
     end
 
     def adapter
-      @adapter ||= Kartit::Output::BaseAdapter.new
-      @adapter
+      @adapter ||= Kartit::Output::Adapter::Base.new
+    end
+
+    def definition= definition
+      @definition = definition
+    end
+
+    def definition
+      @definition ||= Kartit::Output::Definition.new
+    end
+
+    def interpreter= interpreter
+      @interpreter = interpreter
+    end
+
+    def interpreter
+      @interpreter ||= Kartit::Output::DefinitionInterpreter.new
     end
 
     def message msg
@@ -20,12 +35,12 @@ module Kartit::Output
       adapter.error(msg.to_s)
     end
 
-    def print_data data, heading=nil
-      if data.kind_of?(Array)
-        adapter.print_collection(data, heading)
-      else
-        adapter.print_item(data, heading)
-      end
+    def print_records records, heading=nil
+      records = Array(records)
+
+      interpreter.definition = definition
+      interpreter.records = records
+      adapter.print_records(interpreter.fields, interpreter.data, heading)
     end
 
   end
