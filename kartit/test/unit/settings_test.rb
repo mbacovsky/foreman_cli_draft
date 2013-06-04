@@ -1,8 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/spec'
-
-require 'kartit'
-
+require_relative 'test_helper'
 
 describe Kartit::Settings do
 

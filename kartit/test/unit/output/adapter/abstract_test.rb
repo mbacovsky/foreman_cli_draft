@@ -1,8 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/spec'
-require "minitest-spec-context"
-
-require 'kartit'
+require_relative '../../test_helper'
 
 describe Kartit::Output::Adapter::Abstract do
 

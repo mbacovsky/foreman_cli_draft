@@ -7,5 +7,7 @@ gem 'kartit_foreman', :path => '../kartit-foreman'
 gem 'kartit_katello', :path => '../kartit-katello'
 
 group :test do
-  gem 'minitest'
+  gem 'minitest', '4.7.4'
+  gem 'minitest-spec-context'
+  gem 'simplecov'
 end
