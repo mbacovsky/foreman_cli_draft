@@ -2,5 +2,13 @@ source "http://rubygems.org"
 
 gemspec
 
-gem 'kartit'
-gem 'awesome_print'
+gem 'kartit', :path => '../'
+
+gem 'pry'
+gem 'pry-debugger'
+
+group :test do
+  gem 'minitest', '4.7.4'
+  gem 'minitest-spec-context'
+  gem 'simplecov'
+end
