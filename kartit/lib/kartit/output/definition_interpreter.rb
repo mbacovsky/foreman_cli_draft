@@ -42,6 +42,10 @@ module Kartit::Output
       @data = @fields = nil
     end
 
+    def symbolize_hash_keys h
+      return h.inject({}){|result,(k,v)| result[k.to_sym] = v; result}
+    end
+
     def value_for_field field, record
       record = follow_path(record, field[:path] || [])
 
@@ -49,16 +53,18 @@ module Kartit::Output
         return field[:record_formatter].call(record)
 
       else
-        value = record[field[:key]] rescue nil
+        value = record[field[:key].to_sym] rescue nil
         return field[:formatter].call(value) if not field[:formatter].nil?
         return value
       end
     end
 
     def follow_path record, path
+      record = symbolize_hash_keys(record)
       path.each do |path_key|
-        if record.has_key? path_key
-          record = record[path_key]
+        if record.has_key? path_key.to_sym
+          record = record[path_key.to_sym]
+          record = symbolize_hash_keys(record)
         else
           return nil
         end
