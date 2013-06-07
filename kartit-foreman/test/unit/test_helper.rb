@@ -8,6 +8,7 @@ SimpleCov.start do
   add_filter "vendor"
   add_filter "test"
   add_filter "opt"
+  add_filter "/kartit/"
 end
 SimpleCov.root Pathname.new(File.dirname(__FILE__) + "../../../")
 
@@ -15,6 +16,7 @@ SimpleCov.root Pathname.new(File.dirname(__FILE__) + "../../../")
 require 'minitest/autorun'
 require 'minitest/spec'
 require "minitest-spec-context"
+require "mocha/setup"
 
 require 'kartit_foreman'
 

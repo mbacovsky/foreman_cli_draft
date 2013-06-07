@@ -11,4 +11,6 @@ group :test do
   gem 'minitest', '4.7.4'
   gem 'minitest-spec-context'
   gem 'simplecov'
+  gem 'activesupport'
+  gem 'mocha'
 end

@@ -9,4 +9,4 @@ require 'kartit'
 require 'kartit_foreman'
 require 'kartit_katello'
 
-Kartit::MainCommand.run
+exit Kartit::MainCommand.run

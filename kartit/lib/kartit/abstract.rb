@@ -6,8 +6,18 @@ module Kartit
 
     extend Autocompletion
 
+    def run(arguments)
+      load_settings
+      exit_code = super(arguments)
+      raise "exit code must be integer" unless exit_code.is_a? Integer
+      return exit_code
+    end
+
+    def execute
+    end
+
     def load_settings
-      Kartit::Settings.load(YAML::load(File.open('./config/cli_config.yml')))
+      Kartit::Settings.load(YAML::load(File.open('/root/foreman_cli_draft/kartit/config/cli_config.yml')))
       #Kartit::Settings.load(YAML::load(File.open('~/.foreman/cli_config.yml')))
       #Kartit::Settings.load(YAML::load(File.open('/etc/foreman/cli_config.yml')))
     end

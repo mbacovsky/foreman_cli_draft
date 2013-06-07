@@ -1,4 +1,5 @@
 require 'kartit'
+require 'kartit_foreman/apipie_binding'
 
 module KartitForeman
 
