@@ -17,35 +17,27 @@ module KartitForeman
         end
       end
 
-      def bindings
-        @bindings ||= KartitForeman::ApipieBinding.new(ForemanApi)
-      end
-
-      def bindings= b
-        @bindings = b
-      end
-
-      protected
-
       def retrieve_data
         return bindings.architecture.index[0]
       end
 
     end
 
-    # class InfoCommand < Kartit::ReadCommand
+    class InfoCommand < Kartit::ReadCommand
 
-    #   heading "Architecture info"
-    #   output ListCommand.output_definition
+      option "--id", "id", "architecture id", :required => true
 
-    #   def retrieve_data
-    #     return bindings.architecture.index[0]
-    #   end
+      heading "Architecture info"
+      output ListCommand.output_definition
 
-    # end
+      def retrieve_data
+        return bindings.architecture.show({'id' => id})[0]
+      end
+
+    end
 
     subcommand "list", "List foreman's architectures.", KartitForeman::Architecture::ListCommand
-    # subcommand "info", "Detailed info about a foreman's architecture.", KartitForeman::Architecture::InfoCommand
+    subcommand "info", "Detailed info about a foreman's architecture.", KartitForeman::Architecture::InfoCommand
   end
 
 end

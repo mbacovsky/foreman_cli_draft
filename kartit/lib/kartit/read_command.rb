@@ -20,6 +20,14 @@ module Kartit
         @output ||= Kartit::Output::Output.new
       end
 
+      def bindings
+        @bindings ||= KartitForeman::ApipieBinding.new(ForemanApi)
+      end
+
+      def bindings= b
+        @bindings = b
+      end
+
       protected
       def retrieve_data
         raise "you have to redefine retrieve_data"
