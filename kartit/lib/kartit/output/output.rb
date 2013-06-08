@@ -27,12 +27,12 @@ module Kartit::Output
       @interpreter ||= Kartit::Output::DefinitionInterpreter.new
     end
 
-    def message msg
-      adapter.message(msg.to_s)
+    def print_message msg
+      adapter.print_message(msg.to_s)
     end
 
-    def error msg
-      adapter.error(msg.to_s)
+    def print_error msg
+      adapter.print_error(msg.to_s)
     end
 
     def print_records records, heading=nil

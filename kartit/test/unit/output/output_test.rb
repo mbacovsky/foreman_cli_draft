@@ -66,20 +66,20 @@ describe Kartit::Output::Output do
     let(:msg) { "Some message" }
 
     it "prints info message via adapter" do
-      @adapter.expect(:message, nil, [msg])
-      @out.message(msg)
+      @adapter.expect(:print_message, nil, [msg])
+      @out.print_message(msg)
       @adapter.verify
     end
 
     it "prints error message via adapter" do
-      @adapter.expect(:error, nil, [msg])
-      @out.error(msg)
+      @adapter.expect(:print_error, nil, [msg])
+      @out.print_error(msg)
       @adapter.verify
     end
 
     it "prints error message from exception via adapter" do
-      @adapter.expect(:error, nil, [msg])
-      @out.error(Exception.new(msg))
+      @adapter.expect(:print_error, nil, [msg])
+      @out.print_error(Exception.new(msg))
       @adapter.verify
     end
   end
