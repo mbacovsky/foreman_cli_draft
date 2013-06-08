@@ -98,3 +98,92 @@ describe KartitForeman::Architecture::InfoCommand do
   end
 
 end
+
+
+
+
+describe KartitForeman::Architecture::CreateCommand do
+
+  let(:cmd) { KartitForeman::Architecture::CreateCommand.new("") }
+  let(:cmd_run) { cmd.run(["--name=arch"]) }
+
+  before :each do
+    cmd.output.adapter = SilentAdapter.new
+    cmd.bindings = ApipieBindingMock.new(ForemanApi)
+  end
+
+  context "parameters" do
+    it "should end successfully with all required params" do
+      cmd_run.must_equal 0
+    end
+
+    it "should require name" do
+      proc { cmd.run([]) }.must_raise Clamp::UsageError
+    end
+  end
+
+  context "failure" do
+    it "should return correct error code"
+    it "should print the reason of failure"
+  end
+
+end
+
+
+
+
+describe KartitForeman::Architecture::DeleteCommand do
+
+  let(:cmd) { KartitForeman::Architecture::DeleteCommand.new("") }
+  let(:cmd_run) { cmd.run(["--name=arch"]) }
+
+  before :each do
+    cmd.output.adapter = SilentAdapter.new
+    cmd.bindings = ApipieBindingMock.new(ForemanApi)
+  end
+
+  context "parameters" do
+    it "should end successfully with all required params" do
+      cmd_run.must_equal 0
+    end
+
+    it "should require name or id" do
+      proc { cmd.run([]) }.must_raise Clamp::UsageError
+    end
+  end
+
+  context "failure" do
+    it "should return correct error code"
+    it "should print the reason of failure"
+  end
+
+end
+
+
+
+describe KartitForeman::Architecture::UpdateCommand do
+
+  let(:cmd) { KartitForeman::Architecture::UpdateCommand.new("") }
+
+  before :each do
+    cmd.output.adapter = SilentAdapter.new
+    cmd.bindings = ApipieBindingMock.new(ForemanApi)
+  end
+
+  context "parameters" do
+    it "should end successfully with all required params" do
+      cmd.run(["--id=1", "--new-name=arch2"]).must_equal 0
+      cmd.run(["--name=arch", "--new-name=arch2"]).must_equal 0
+    end
+
+    it "should require name or id" do
+      proc { cmd.run(["--new-name=arch2"]) }.must_raise Clamp::UsageError
+    end
+  end
+
+  context "failure" do
+    it "should return correct error code"
+    it "should print the reason of failure"
+  end
+
+end
