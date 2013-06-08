@@ -10,12 +10,13 @@ describe Kartit::Output::Output do
     def @interpreter.definition=(d)
     end
     def @interpreter.records=(r)
+      @records = r
     end
     def @interpreter.fields
       :fields
     end
     def @interpreter.data
-      :data
+      @records
     end
 
     @out = Kartit::Output::Output.new
@@ -92,12 +93,12 @@ describe Kartit::Output::Output do
 
     context "prints single resource" do
       it "without header" do
-        @adapter.expect(:print_records, nil, [:fields, :data, nil])
+        @adapter.expect(:print_records, nil, [:fields, [item1], nil])
         @out.print_records(item1)
         @adapter.verify
       end
       it "with header" do
-        @adapter.expect(:print_records, nil, [:fields, :data, heading])
+        @adapter.expect(:print_records, nil, [:fields, [item1], heading])
         @out.print_records(item1, heading)
         @adapter.verify
       end
@@ -105,12 +106,12 @@ describe Kartit::Output::Output do
 
     context "prints array of resources" do
       it "without header" do
-        @adapter.expect(:print_records, nil, [:fields, :data, nil])
+        @adapter.expect(:print_records, nil, [:fields, collection, nil])
         @out.print_records(collection)
         @adapter.verify
       end
       it "with header" do
-        @adapter.expect(:print_records, nil, [:fields, :data, heading])
+        @adapter.expect(:print_records, nil, [:fields, collection, heading])
         @out.print_records(collection, heading)
         @adapter.verify
       end

@@ -9,7 +9,8 @@ module Kartit::Output
     end
 
     def records= records
-      @records = Array(records)
+      @records = records
+      @records = [@records] unless @records.kind_of?(Array)
       clear
     end
 

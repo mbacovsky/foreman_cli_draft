@@ -36,7 +36,7 @@ module Kartit::Output
     end
 
     def print_records records, heading=nil
-      records = Array(records)
+      records = [records] unless records.kind_of?(Array)
 
       interpreter.definition = definition
       interpreter.records = records
