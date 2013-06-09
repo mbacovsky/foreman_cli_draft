@@ -1,4 +1,3 @@
-require 'kartit/output/adapter/abstract'
 
 module Kartit::Output::Adapter
   class Base < Abstract

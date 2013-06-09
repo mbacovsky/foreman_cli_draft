@@ -1,10 +1,10 @@
 require 'kartit/output/dsl'
 
-module Kartit
+module Kartit::Apipie
 
-  class ReadCommand < AbstractCommand
+  class ReadCommand < Command
 
-      extend Output::Dsl
+      extend Kartit::Output::Dsl
 
       def output_definition
         self.class.output_definition
@@ -16,21 +16,10 @@ module Kartit
         return 0
       end
 
-      def output
-        @output ||= Kartit::Output::Output.new
-      end
-
-      def bindings
-        @bindings ||= KartitForeman::ApipieBinding.new(ForemanApi)
-      end
-
-      def bindings= b
-        @bindings = b
-      end
-
       protected
       def retrieve_data
-        raise "you have to redefine retrieve_data"
+        raise "resource or action not defined" unless resource_defined?
+        bindings.send(resource).send(action, request_params)[0]
       end
 
       def print_records data
@@ -38,8 +27,12 @@ module Kartit
         output.print_records data, self.class.output_heading
       end
 
+      def request_params
+        {}
+      end
 
   end
+
 end
 
 

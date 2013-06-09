@@ -3,10 +3,10 @@ require 'active_support/inflector'
 
 class ApipieBindingMock
 
-  def initialize api_binding
+  def initialize api_resources
 
     @bindings = {}
-    @api_resources = api_binding.const_get('Resources')
+    @api_resources = api_resources
 
     bindings = @api_resources.constants.select {|c| Class === @api_resources.const_get(c)}
 

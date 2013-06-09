@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 require_relative 'apipie_binding_mock'
-require_relative 'test_output_adapters'
+require_relative 'test_output_adapter'
 
 describe KartitForeman::Architecture::ListCommand do
 
@@ -8,8 +8,8 @@ describe KartitForeman::Architecture::ListCommand do
   let(:cmd_run) { cmd.run([]) }
 
   before :each do
-    cmd.output.adapter = SilentAdapter.new
-    cmd.bindings = ApipieBindingMock.new(ForemanApi)
+    cmd.output.adapter = Kartit::Output::Adapter::Silent.new
+    cmd.bindings = ApipieBindingMock.new(ForemanApi::Resources)
   end
 
   it "should end successfully" do
@@ -55,8 +55,8 @@ describe KartitForeman::Architecture::InfoCommand do
   let(:cmd_run) { cmd.run(["--id=1"]) }
 
   before :each do
-    cmd.output.adapter = SilentAdapter.new
-    cmd.bindings = ApipieBindingMock.new(ForemanApi)
+    cmd.output.adapter = Kartit::Output::Adapter::Silent.new
+    cmd.bindings = ApipieBindingMock.new(ForemanApi::Resources)
   end
 
   context "parameters" do
@@ -108,8 +108,8 @@ describe KartitForeman::Architecture::CreateCommand do
   let(:cmd_run) { cmd.run(["--name=arch"]) }
 
   before :each do
-    cmd.output.adapter = SilentAdapter.new
-    cmd.bindings = ApipieBindingMock.new(ForemanApi)
+    cmd.output.adapter = Kartit::Output::Adapter::Silent.new
+    cmd.bindings = ApipieBindingMock.new(ForemanApi::Resources)
   end
 
   context "parameters" do
@@ -138,8 +138,8 @@ describe KartitForeman::Architecture::DeleteCommand do
   let(:cmd_run) { cmd.run(["--name=arch"]) }
 
   before :each do
-    cmd.output.adapter = SilentAdapter.new
-    cmd.bindings = ApipieBindingMock.new(ForemanApi)
+    cmd.output.adapter = Kartit::Output::Adapter::Silent.new
+    cmd.bindings = ApipieBindingMock.new(ForemanApi::Resources)
   end
 
   context "parameters" do
@@ -166,8 +166,8 @@ describe KartitForeman::Architecture::UpdateCommand do
   let(:cmd) { KartitForeman::Architecture::UpdateCommand.new("") }
 
   before :each do
-    cmd.output.adapter = SilentAdapter.new
-    cmd.bindings = ApipieBindingMock.new(ForemanApi)
+    cmd.output.adapter = Kartit::Output::Adapter::Silent.new
+    cmd.bindings = ApipieBindingMock.new(ForemanApi::Resources)
   end
 
   context "parameters" do

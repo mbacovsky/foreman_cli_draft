@@ -13,7 +13,16 @@ module Kartit
       return exit_code
     end
 
+    def parse(arguments)
+      super(arguments)
+      validate_options
+    end
+
     def execute
+    end
+
+    def validate_options
+
     end
 
     def load_settings

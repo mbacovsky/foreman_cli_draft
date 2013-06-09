@@ -1,5 +1,3 @@
-require 'kartit/output/adapter/base'
-
 module Kartit::Output
   class Output
 

@@ -4,7 +4,7 @@ require 'foreman_api'
 module KartitForeman
 
   class Architecture < Kartit::AbstractCommand
-    class ListCommand < Kartit::ReadCommand
+    class ListCommand < Kartit::Apipie::ReadCommand
 
       heading "Architecture list"
       output do
@@ -16,32 +16,36 @@ module KartitForeman
         end
       end
 
-      def retrieve_data
-        return bindings.architecture.index[0]
+      resource "architecture", "index"
+
+      def api_resources
+        ForemanApi::Resources
       end
 
     end
 
-    class InfoCommand < Kartit::ReadCommand
+    class InfoCommand < Kartit::Apipie::ReadCommand
 
       option "--id", "ID", "architecture id", :required => true
 
       heading "Architecture info"
       output ListCommand.output_definition
 
-      def retrieve_data
-        return bindings.architecture.show({'id' => id})[0]
+      resource "architecture", "show"
+
+      def request_params
+        {'id' => id}
+      end
+
+      def api_resources
+        ForemanApi::Resources
       end
 
     end
 
-    class CreateCommand < Kartit::AbstractCommand
+    class CreateCommand < Kartit::Apipie::WriteCommand
 
       option "--name", "NAME", "architecture name", :required => true
-
-      def output
-        @output ||= Kartit::Output::Output.new
-      end
 
       def execute
         send_request
@@ -49,75 +53,53 @@ module KartitForeman
         return 0
       end
 
-      def bindings
-        @bindings ||= KartitForeman::ApipieBinding.new(ForemanApi)
+      resource "architecture", "create"
+
+      def request_params
+        {'name' => name}
       end
 
-      def bindings= b
-        @bindings = b
-      end
-
-      def send_request
-        return bindings.architecture.create({'name' => name})[0]
+      def api_resources
+        ForemanApi::Resources
       end
 
     end
 
-    class DeleteCommand < Kartit::AbstractCommand
+    class DeleteCommand < Kartit::Apipie::WriteCommand
 
       option "--name", "NAME", "architecture name"
       option "--id", "ID", "architecture id"
 
-      def output
-        @output ||= Kartit::Output::Output.new
+      success_message "Architecture deleted"
+
+      resource "architecture", "destroy"
+
+      def request_params
+        {'id' => (id || name)}
       end
 
-      def execute
-        send_request
-        output.print_message "Architecture deleted"
-        return 0
-      end
-
-      def bindings
-        @bindings ||= KartitForeman::ApipieBinding.new(ForemanApi)
-      end
-
-      def bindings= b
-        @bindings = b
-      end
-
-      def send_request
-        return bindings.architecture.destroy({'id' => (id || name)})[0]
+      def api_resources
+        ForemanApi::Resources
       end
 
     end
 
-    class UpdateCommand < Kartit::AbstractCommand
+    class UpdateCommand < Kartit::Apipie::WriteCommand
 
       option "--name", "NAME", "architecture name"
       option "--id", "ID", "architecture id"
       option "--new-name", "NEW_NAME", "new architecture name"
 
-      def output
-        @output ||= Kartit::Output::Output.new
+      success_message "Architecture updated"
+      resource "architecture", "update"
+
+      def api_resources
+        ForemanApi::Resources
       end
 
-      def execute
-        send_request
-        output.print_message "Architecture updated"
-        return 0
-      end
 
-      def bindings
-        @bindings ||= KartitForeman::ApipieBinding.new(ForemanApi)
-      end
-
-      def bindings= b
-        @bindings = b
-      end
-
-      def send_request
-        return bindings.architecture.update({'id' => (id || name), 'name' => new_name})[0]
+      def request_params
+        {'id' => (id || name), 'name' => new_name}
       end
 
     end

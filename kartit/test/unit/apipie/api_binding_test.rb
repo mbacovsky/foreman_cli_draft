@@ -1,22 +1,9 @@
-require_relative 'test_helper'
+require_relative '../test_helper'
+require_relative 'fake_api'
 
+describe Kartit::Apipie::ApipieBinding do
 
-describe KartitForeman::ApipieBinding do
-
-  module FakeApi
-    module Resources
-      class Architecture
-        def initialize(attrs)
-        end
-      end
-      class CamelCaseName
-        def initialize(attrs)
-        end
-      end
-    end
-  end
-
-  let(:binding) { KartitForeman::ApipieBinding.new(FakeApi) }
+  let(:binding) { Kartit::Apipie::ApipieBinding.new(FakeApi::Resources) }
 
   let(:host) { "http://some.host.org/" }
   let(:username) { "admin_user" }
