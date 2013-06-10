@@ -22,15 +22,22 @@ module KartitForeman
 
     class InfoCommand < Kartit::Apipie::ReadCommand
 
-      option "--id", "ID", "architecture id", :required => true
+      option "--id", "ID", "architecture id"
+      option "--name", "NAME", "architecture name"
 
       heading "Architecture info"
       output ListCommand.output_definition
 
       resource ForemanApi::Resources::Architecture, "show"
 
+      def validate_options
+        if name.nil? and id.nil?
+          signal_usage_error "Either --id or --name is required."
+        end
+      end
+
       def request_params
-        {'id' => id}
+        {'id' => (id || name)}
       end
     end
 
@@ -54,6 +61,12 @@ module KartitForeman
       success_message "Architecture deleted"
       resource ForemanApi::Resources::Architecture, "destroy"
 
+      def validate_options
+        if name.nil? and id.nil?
+          signal_usage_error "Either --id or --name is required."
+        end
+      end
+
       def request_params
         {'id' => (id || name)}
       end
@@ -67,6 +80,12 @@ module KartitForeman
 
       success_message "Architecture updated"
       resource ForemanApi::Resources::Architecture, "update"
+
+      def validate_options
+        if name.nil? and id.nil?
+          signal_usage_error "Either --id or --name is required."
+        end
+      end
 
       def request_params
         {'id' => (id || name), 'name' => new_name}

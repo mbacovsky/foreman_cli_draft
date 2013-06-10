@@ -59,10 +59,11 @@ describe KartitForeman::Architecture do
 
     context "parameters" do
       it "should end successfully with all required params" do
-        cmd_run.must_equal 0
+        cmd.run(["--id=1"]).must_equal 0
+        cmd.run(["--name=arch"]).must_equal 0
       end
 
-      it "should require id" do
+      it "should require name or id" do
         proc { cmd.run([]) }.must_raise Clamp::UsageError
       end
     end

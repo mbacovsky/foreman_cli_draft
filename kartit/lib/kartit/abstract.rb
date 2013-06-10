@@ -22,7 +22,6 @@ module Kartit
     end
 
     def validate_options
-
     end
 
     def load_settings
