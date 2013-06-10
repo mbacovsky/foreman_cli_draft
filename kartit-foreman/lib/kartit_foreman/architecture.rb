@@ -16,11 +16,7 @@ module KartitForeman
         end
       end
 
-      resource "architecture", "index"
-
-      def api_resources
-        ForemanApi::Resources
-      end
+      resource ForemanApi::Resources::Architecture, "index"
 
     end
 
@@ -31,38 +27,23 @@ module KartitForeman
       heading "Architecture info"
       output ListCommand.output_definition
 
-      resource "architecture", "show"
+      resource ForemanApi::Resources::Architecture, "show"
 
       def request_params
         {'id' => id}
       end
-
-      def api_resources
-        ForemanApi::Resources
-      end
-
     end
 
     class CreateCommand < Kartit::Apipie::WriteCommand
 
       option "--name", "NAME", "architecture name", :required => true
 
-      def execute
-        send_request
-        output.print_message "Architecture created"
-        return 0
-      end
-
-      resource "architecture", "create"
+      success_message "Architecture created"
+      resource ForemanApi::Resources::Architecture, "create"
 
       def request_params
         {'name' => name}
       end
-
-      def api_resources
-        ForemanApi::Resources
-      end
-
     end
 
     class DeleteCommand < Kartit::Apipie::WriteCommand
@@ -71,17 +52,11 @@ module KartitForeman
       option "--id", "ID", "architecture id"
 
       success_message "Architecture deleted"
-
-      resource "architecture", "destroy"
+      resource ForemanApi::Resources::Architecture, "destroy"
 
       def request_params
         {'id' => (id || name)}
       end
-
-      def api_resources
-        ForemanApi::Resources
-      end
-
     end
 
     class UpdateCommand < Kartit::Apipie::WriteCommand
@@ -91,17 +66,11 @@ module KartitForeman
       option "--new-name", "NEW_NAME", "new architecture name"
 
       success_message "Architecture updated"
-      resource "architecture", "update"
-
-      def api_resources
-        ForemanApi::Resources
-      end
-
+      resource ForemanApi::Resources::Architecture, "update"
 
       def request_params
         {'id' => (id || name), 'name' => new_name}
       end
-
     end
 
     subcommand "list", "List architectures.", KartitForeman::Architecture::ListCommand

@@ -11,34 +11,35 @@ module Kartit::Apipie
       @output ||= Kartit::Output::Output.new
     end
 
-    def bindings
-      @bindings ||= Kartit::Apipie::ApipieBinding.new(api_resources)
-    end
-    attr_writer :bindings
-
-
-    def api_resources
-      raise "redefine method #api_resources"
-    end
-
     def execute
     end
 
-    def self.resource resource, action
+    def self.resource resource, action=nil
       @api_resource = resource
+      @api_action = action unless action.nil?
+    end
+
+    def self.action action
       @api_action = action
     end
 
     def resource
-      self.class.api_resource
+      config = {}
+      config[:base_url] = Kartit::Settings[:host]
+      config[:username] = Kartit::Settings[:username]
+      config[:password] = Kartit::Settings[:password]
+
+      self.class.api_resource.new(config)
     end
 
     def action
       self.class.api_action
     end
 
+    protected
+
     def resource_defined?
-      not (resource.nil? or action.nil?)
+      not (self.class.api_resource.nil? or self.class.api_action.nil?)
     end
 
 

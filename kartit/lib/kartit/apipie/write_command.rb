@@ -28,7 +28,7 @@ module Kartit::Apipie
 
     def send_request
       raise "resource or action not defined" unless resource_defined?
-      bindings.send(resource).send(action, request_params)[0]
+      resource.send(action, request_params)[0]
     end
 
     def request_params

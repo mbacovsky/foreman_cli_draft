@@ -6,12 +6,6 @@ describe Kartit::Apipie::WriteCommand do
   let(:cmd) { Kartit::Apipie::WriteCommand.new("") }
   let(:cmd_run) { cmd.run([]) }
 
-  before :each do
-    def cmd.api_resources
-      FakeApi::Resources
-    end
-  end
-
   it "should raise exception when no action is defined" do
     proc { cmd_run }.must_raise RuntimeError
   end
@@ -19,7 +13,7 @@ describe Kartit::Apipie::WriteCommand do
   context "resource defined" do
 
     before :each do
-      cmd.class.resource "architecture", "some_action"
+      cmd.class.resource FakeApi::Resources::Architecture, "some_action"
 
       arch = FakeApi::Resources::Architecture.new
       arch.expects(:some_action).returns([])

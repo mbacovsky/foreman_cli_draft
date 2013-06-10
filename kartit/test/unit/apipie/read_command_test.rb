@@ -8,9 +8,6 @@ describe Kartit::Apipie::ReadCommand do
   let(:cmd_run) { cmd.run([]) }
 
   before :each do
-    def cmd.api_resources
-      FakeApi::Resources
-    end
     cmd.output.adapter = Kartit::Output::Adapter::Silent.new
   end
 
@@ -25,7 +22,7 @@ describe Kartit::Apipie::ReadCommand do
   context "resource defined" do
 
     before :each do
-      cmd.class.resource "architecture", "some_action"
+      cmd.class.resource FakeApi::Resources::Architecture, "some_action"
 
       arch = FakeApi::Resources::Architecture.new
       arch.expects(:some_action).returns([])

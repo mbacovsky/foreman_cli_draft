@@ -19,7 +19,7 @@ module Kartit::Apipie
       protected
       def retrieve_data
         raise "resource or action not defined" unless resource_defined?
-        bindings.send(resource).send(action, request_params)[0]
+        resource.send(action, request_params)[0]
       end
 
       def print_records data
