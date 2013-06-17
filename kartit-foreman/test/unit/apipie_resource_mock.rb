@@ -1,6 +1,3 @@
-require 'active_support/inflector'
-
-
 class ApipieResourceMock
 
   def initialize resource

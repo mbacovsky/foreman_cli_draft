@@ -1,5 +1,6 @@
 require 'kartit'
 require 'foreman_api'
+require 'kartit_foreman/formatters'
 
 module KartitForeman
 
@@ -11,8 +12,8 @@ module KartitForeman
         from "architecture" do
           field :id, "Id"
           field :name, "Name"
-          field :created_at, "Created at"
-          field :updated_at, "Updated at"
+          field :created_at, "Created at", &KartitForeman::Formatters.method(:date_formatter)
+          field :updated_at, "Updated at", &KartitForeman::Formatters.method(:date_formatter)
         end
       end
 
