@@ -1,21 +1,19 @@
 require 'terminal-table'
 
 module Kartit::Output::Adapter
-  class Base < Abstract
+  class Table < Abstract
 
     def print_records fields, data, heading=nil
 
-      rows = []
-      data.each do |d|
+      headings = fields.collect{|f| f[:label].to_s}
+      rows = data.collect do |d|
         fields.collect do |f|
-          key = f[:label].to_s
-          value = d[f[:key]].to_s
-          rows << [key, ":", value]
+          d[f[:key]].to_s
         end
-        rows << [nil, nil, nil]
       end
 
       table = Terminal::Table.new :title => heading,
+                                  :headings => headings,
                                   :rows => rows,
                                   :style => { :border_y => '', :border_i => '', :border_x => '-' }
       puts table

@@ -23,7 +23,7 @@ describe Kartit::Output::Adapter::Base do
     end
 
     it "should print field name" do
-      proc { adapter.print_records(fields, data) }.must_output(/.*Name:.*/, "")
+      proc { adapter.print_records(fields, data) }.must_output(/.*Name[ ]*:.*/, "")
     end
 
     it "should print field value" do
