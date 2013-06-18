@@ -4,7 +4,8 @@ require_relative 'fake_api'
 
 describe Kartit::Apipie::ReadCommand do
 
-  let(:cmd) { Kartit::Apipie::ReadCommand.new("") }
+  let(:cmd_class) { Kartit::Apipie::ReadCommand.dup }
+  let(:cmd) { cmd_class.new("") }
   let(:cmd_run) { cmd.run([]) }
 
   before :each do
@@ -22,7 +23,7 @@ describe Kartit::Apipie::ReadCommand do
   context "resource defined" do
 
     before :each do
-      cmd.class.resource FakeApi::Resources::Architecture, "some_action"
+      cmd_class.resource FakeApi::Resources::Architecture, "some_action"
 
       arch = FakeApi::Resources::Architecture.new
       arch.expects(:some_action).returns([])

@@ -18,7 +18,7 @@ module Kartit::Apipie
 
       protected
       def retrieve_data
-        raise "resource or action not defined" unless resource_defined?
+        raise "resource or action not defined" unless self.class.resource_defined?
         resource.send(action, request_params)[0]
       end
 
@@ -28,7 +28,7 @@ module Kartit::Apipie
       end
 
       def request_params
-        {}
+        method_options
       end
 
   end

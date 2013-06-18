@@ -1,11 +1,12 @@
+require_relative 'options'
+require_relative 'resource'
+
 module Kartit::Apipie
 
   class Command < Kartit::AbstractCommand
 
-    class << self
-      attr_accessor :api_resource
-      attr_accessor :api_action
-    end
+    include Kartit::Apipie::Resource
+    include Kartit::Apipie::Options
 
     def output
       @output ||= Kartit::Output::Output.new
@@ -13,35 +14,6 @@ module Kartit::Apipie
 
     def execute
     end
-
-    def self.resource resource, action=nil
-      @api_resource = resource
-      @api_action = action unless action.nil?
-    end
-
-    def self.action action
-      @api_action = action
-    end
-
-    def resource
-      config = {}
-      config[:base_url] = Kartit::Settings[:host]
-      config[:username] = Kartit::Settings[:username]
-      config[:password] = Kartit::Settings[:password]
-
-      self.class.api_resource.new(config)
-    end
-
-    def action
-      self.class.api_action
-    end
-
-    protected
-
-    def resource_defined?
-      not (self.class.api_resource.nil? or self.class.api_action.nil?)
-    end
-
 
   end
 end

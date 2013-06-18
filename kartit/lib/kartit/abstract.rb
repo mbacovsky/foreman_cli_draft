@@ -30,5 +30,18 @@ module Kartit
       #Kartit::Settings.load(YAML::load(File.open('/etc/foreman/cli_config.yml')))
     end
 
+    protected
+
+    def all_options
+      self.class.declared_options.inject({}) do |h, opt|
+        h[opt.attribute_name] = send(opt.read_method)
+        h
+      end
+    end
+
+    def options
+      all_options.reject {|key, value| value.nil? }
+    end
+
   end
 end

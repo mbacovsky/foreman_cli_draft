@@ -1,11 +1,14 @@
 class ApipieResourceMock
 
   def initialize resource
-
-    resource.doc["methods"].each do |method|
+    @resource = resource
+    @resource.doc["methods"].each do |method|
       self.stubs(method["name"]).returns(stub_return_value(method))
     end
+  end
 
+  def doc
+    @resource.doc
   end
 
   def new attrs
