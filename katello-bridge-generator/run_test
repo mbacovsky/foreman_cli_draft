@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ -z "$KATELLO_CLI_PATH" ]; then
+    echo "KATELLO_CLI_PATH is not set"
+    exit 1
+fi
+
+TMPDIR=`mktemp -d /tmp/katello_cli_bridge.XXXXXXXXXX` || exit 1
+cp -r "$KATELLO_CLI_PATH/src/katello" $TMPDIR
+cp -r 'test/fake_cli/katello' $TMPDIR
+
+PYTHONPATH=$TMPDIR:./src nosetests -w "test"
+
+rm -rf $TMPDIR
