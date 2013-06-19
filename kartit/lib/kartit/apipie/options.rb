@@ -28,17 +28,22 @@ module Kartit::Apipie
 
     module ClassMethods
 
-      def apipie_options
+      def apipie_options options={}
         raise "Specify apipie resource first." unless resource_defined?
-        options_for_params(method_doc["params"])
+
+        filter = options[:without] || []
+        filter = [filter] unless filter.kind_of? Array
+
+        options_for_params(method_doc["params"], filter)
       end
 
       protected
 
-      def options_for_params params
+      def options_for_params params, filter
         params.each do |p|
+          next if filter.include? p["name"]
           if p["expected_type"] == "hash"
-            options_for_params p["params"]
+            options_for_params(p["params"], filter)
           else
             create_option p
           end

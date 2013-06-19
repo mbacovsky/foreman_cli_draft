@@ -69,20 +69,32 @@ describe Kartit::Apipie::Command do
       end
 
       it "should create options for all parameters except the hash" do
-        cmd_class.declared_options.length.must_equal 2
-        cmd_class.declared_options.select do |opt|
-          opt.attribute_name == "documented"
-        end.must_be :empty?
+        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["name", "provider"]
       end
 
       it "should name the options correctly" do
-        cmd_class.declared_options.select do |opt|
-          opt.attribute_name == "name"
-        end.length.must_equal 1
+        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["name", "provider"]
+      end
+    end
 
-        cmd_class.declared_options.select do |opt|
-          opt.attribute_name == "provider"
-        end.length.must_equal 1
+    context "filtering options" do
+      before :each do
+        cmd_class.resource FakeApi::Resources::Documented, :create
+      end
+
+      it "should skip filtered options" do
+        cmd_class.apipie_options :without => ["provider", "name"]
+        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal []
+      end
+
+      it "should skip single filtered option in array" do
+        cmd_class.apipie_options :without => ["provider"]
+        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["name"]
+      end
+
+      it "should skip single filtered option" do
+        cmd_class.apipie_options :without => "provider"
+        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["name"]
       end
 
     end
