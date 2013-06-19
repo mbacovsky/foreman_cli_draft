@@ -18,11 +18,7 @@ module Kartit::Output
       return @fields unless @fields.nil?
 
       @fields = @definition.fields.collect do |field|
-        {
-          :label => field.label,
-          :options => field.options,
-          :key => field.key,
-        }
+        Kartit::Output::Field.new(field.key, field.label, field.options)
       end
     end
 

@@ -5,10 +5,10 @@ module Kartit::Output::Adapter
 
     def print_records fields, data, heading=nil
 
-      headings = fields.collect{|f| f[:label].to_s}
+      headings = fields.collect{|f| f.label.to_s}
       rows = data.collect do |d|
         fields.collect do |f|
-          d[f[:key]].to_s
+          d[f.key].to_s
         end
       end
 

@@ -31,7 +31,7 @@ describe Kartit::Output::DefinitionInterpreter do
   let(:fields) { interpreter.fields }
   let(:first_field) { fields[0] }
   let(:data) { interpreter.data }
-  let(:first_field_values) { data.collect{|d| d[first_field[:key]]} }
+  let(:first_field_values) { data.collect{|d| d[first_field.key]} }
 
   let(:fake_format_func) { format_func = lambda { |x| x } }
   let(:name_format_func) { format_func = lambda { |x| x[:name] } }
@@ -49,18 +49,18 @@ describe Kartit::Output::DefinitionInterpreter do
 
     it "set label" do
       definition.add_field(:name, "Name")
-      first_field[:label].must_equal "Name"
+      first_field.label.must_equal "Name"
     end
 
     it "set key" do
       definition.add_field(:name, "Name")
-      first_field[:key].must_equal :name
+      first_field.key.must_equal :name
     end
 
     let (:options) { {:key1 => 'a', :key2 => 'b'} }
     it "set options" do
       definition.add_field(:name, "Name", options)
-      first_field[:options].must_equal options
+      first_field.options.must_equal options
     end
   end
 

@@ -6,11 +6,7 @@ describe Kartit::Output::Adapter::Base do
 
   context "print_records" do
 
-    let(:field_name) {{
-      :label => "Name",
-      :key => :name,
-      :options => {}
-    }}
+    let(:field_name) { Kartit::Output::Field.new(:name, "Name") }
     let(:fields) {
       [field_name]
     }

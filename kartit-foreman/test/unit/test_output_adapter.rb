@@ -8,7 +8,7 @@ class TestAdapter < Kartit::Output::Adapter::Abstract
   end
 
   def print_records fields, data, heading=nil
-    puts @separator+fields.collect{|f| f[:label].to_s}.join(@separator)+@separator
+    puts @separator+fields.collect{|f| f.label.to_s}.join(@separator)+@separator
     data.each do |d|
       puts @separator+d.values.join(@separator)+@separator
     end

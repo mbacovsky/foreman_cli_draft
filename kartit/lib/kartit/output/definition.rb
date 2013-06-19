@@ -5,24 +5,32 @@ module Kartit::Output
     def initialize key, label, options={}
       self.key = key
       self.label = label
-      self.formatter = options.delete(:formatter)
-      self.record_formatter = options.delete(:record_formatter)
-      self.path = options.delete(:path) || []
       self.options = options
-      self.formatter = Proc.new if block_given?
     end
 
-    attr_accessor :key, :label
-    attr_accessor :formatter, :record_formatter, :path, :options
-
-    def path= path
-      @path = path
-      @path = [@path] unless @path.kind_of? Array
-    end
+    attr_accessor :key, :label, :options
   end
 
 
   class Definition
+
+    class Field < Kartit::Output::Field
+
+      def initialize key, label, options={}
+        self.formatter = options.delete(:formatter)
+        self.record_formatter = options.delete(:record_formatter)
+        self.path = options.delete(:path) || []
+        self.formatter = Proc.new if block_given?
+        super key, label, options
+      end
+
+      attr_accessor :formatter, :record_formatter, :path
+
+      def path= path
+        @path = path
+        @path = [@path] unless @path.kind_of? Array
+      end
+    end
 
     def initialize
       @fields = []
