@@ -19,9 +19,9 @@ module Kartit::Output
 
       @fields = @definition.fields.collect do |field|
         {
-          :label => field[:label],
-          :options => field[:options],
-          :key => field[:key],
+          :label => field.label,
+          :options => field.options,
+          :key => field.key,
         }
       end
     end
@@ -31,7 +31,7 @@ module Kartit::Output
 
       @data = @records.collect do |record|
         @definition.fields.inject({}) do |result, field|
-          result[field[:key]] = value_for_field(field, record)
+          result[field.key] = value_for_field(field, record)
           result
         end
       end
@@ -48,14 +48,14 @@ module Kartit::Output
     end
 
     def value_for_field field, record
-      record = follow_path(record, field[:path] || [])
+      record = follow_path(record, field.path || [])
 
-      if not field[:record_formatter].nil?
-        return field[:record_formatter].call(record)
+      if not field.record_formatter.nil?
+        return field.record_formatter.call(record)
 
       else
-        value = record[field[:key].to_sym] rescue nil
-        return field[:formatter].call(value) if not field[:formatter].nil?
+        value = record[field.key.to_sym] rescue nil
+        return field.formatter.call(value) if not field.formatter.nil?
         return value
       end
     end

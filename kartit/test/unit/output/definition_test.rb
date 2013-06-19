@@ -13,9 +13,9 @@ describe Kartit::Output::Definition do
 
     field_count.must_equal 1
 
-    last_field[:key].must_equal :key
-    last_field[:label].must_equal "label"
-    last_field[:options].must_equal options
+    last_field.key.must_equal :key
+    last_field.label.must_equal "label"
+    last_field.options.must_equal options
   end
 
   it "append should allow to add data from another definition" do
@@ -33,17 +33,17 @@ describe Kartit::Output::Definition do
 
     it "should save path to fields" do
       definition.add_field :key, "label", options.merge(:path => path)
-      assert_equal options, last_field[:options]
+      assert_equal options, last_field.options
     end
 
     it "should remove path from options" do
       definition.add_field :key, "label", options.merge(:path => path)
-      last_field[:path].must_equal path
+      last_field.path.must_equal path
     end
 
     it "should set path as empty array by default" do
       definition.add_field :key, "label"
-      last_field[:path].must_equal []
+      last_field.path.must_equal []
     end
   end
 
@@ -54,31 +54,31 @@ describe Kartit::Output::Definition do
     it "should be able to add field with formatting function as a block" do
       definition.add_field :key, "label", &formatter
 
-      assert_equal formatter, last_field[:formatter]
+      assert_equal formatter, last_field.formatter
     end
 
     it "should store formatter for a field" do
       definition.add_field :key, "label", :formatter => formatter
 
-      assert_equal formatter, last_field[:formatter]
-      assert_equal nil, last_field[:record_formatter]
+      assert_equal formatter, last_field.formatter
+      assert_equal nil, last_field.record_formatter
     end
 
     it "should store record formatter for a field" do
       definition.add_field :key, "label", :record_formatter => formatter
 
-      assert_equal nil, last_field[:formatter]
-      assert_equal formatter, last_field[:record_formatter]
+      assert_equal nil, last_field.formatter
+      assert_equal formatter, last_field.record_formatter
     end
 
     it "should remove formatter from options" do
       definition.add_field :key, "label", options.merge(:formatter => formatter)
-      assert_equal options, last_field[:options]
+      assert_equal options, last_field.options
     end
 
     it "should remove record formatter from options" do
       definition.add_field :key, "label", options.merge(:record_formatter => formatter)
-      assert_equal options, last_field[:options]
+      assert_equal options, last_field.options
     end
 
   end

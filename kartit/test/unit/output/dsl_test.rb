@@ -34,19 +34,19 @@ describe Kartit::Output::Dsl do
       it "can define it's own fields" do
         dsl.field :email, "Email", &formatter
 
-        last_field[:key].must_equal :email
-        last_field[:label].must_equal "Email"
-        last_field[:record_formatter].must_equal nil
-        assert_equal formatter, last_field[:formatter]
+        last_field.key.must_equal :email
+        last_field.label.must_equal "Email"
+        last_field.record_formatter.must_equal nil
+        assert_equal formatter, last_field.formatter
       end
 
       it "can define it's own abstract fields" do
         dsl.abstract_field :email, "Email", &formatter
 
-        last_field[:key].must_equal :email
-        last_field[:label].must_equal "Email"
-        last_field[:formatter].must_equal nil
-        assert_equal formatter, last_field[:record_formatter]
+        last_field.key.must_equal :email
+        last_field.label.must_equal "Email"
+        last_field.formatter.must_equal nil
+        assert_equal formatter, last_field.record_formatter
       end
 
       it "can define multiple fields" do
@@ -61,14 +61,14 @@ describe Kartit::Output::Dsl do
 
         it "stores empty path by default" do
           dsl.abstract_field :email, "Email"
-          last_field[:path].must_equal []
+          last_field.path.must_equal []
         end
 
         it "from appends to path" do
           dsl.from :key1 do
             dsl.abstract_field :email, "Email"
           end
-          last_field[:path].must_equal [:key1]
+          last_field.path.must_equal [:key1]
         end
 
         it "from can be nested" do
@@ -80,8 +80,8 @@ describe Kartit::Output::Dsl do
               dsl.abstract_field :email, "Email"
             end
           end
-          first_field[:path].must_equal [:key1, :key2, :key3]
-          last_field[:path].must_equal [:key1, :key2]
+          first_field.path.must_equal [:key1, :key2, :key3]
+          last_field.path.must_equal [:key1, :key2]
         end
 
       end
