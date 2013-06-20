@@ -24,5 +24,6 @@ EOF
   s.executables = ['kartit']
 
   s.add_dependency 'clamp'
+  s.add_dependency 'terminal-table'
 
 end
