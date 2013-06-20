@@ -17,12 +17,15 @@ User stories
 * As a CLI user I would like to limit scope of actions the secret authorizes me to do
 * As a CLI user I would like to be able to disable the secret
 * As a CLI user I would like to be able to remove expired secrets
-
+* As a Signo user I would like to see all my secrets via Web UI
+* As a Signo user I would like to disable particular secret via Web UI
+* As a Signo user I would like to create secret via WebUI
+* As a CLI user I would like to use secret created in WebUI (sync/store?)
 
 
 Things to solve
 ---------------
 
 * How to handle attempt to auth with invalid cert? (error/try to get new secret)
-* Shouldn't we remove passing passwords as parameter on commandline? What use cases it could brake? UX?
+* Shouldn't we disable passing passwords as a parameter on commandline? What use cases it could brake? UX?
 * How to protect stored secrets on client?
