@@ -1,0 +1,19 @@
+@startuml
+
+title CLI Authentication usign Signo and OAuth
+
+participant CLI
+box "Shared secret"
+    participant Signo
+    participant Katello
+end box
+
+CLI -> Signo : Login (username, password)
+Signo -> CLI : secret
+
+CLI -> Katello : Request (username, signature, [hashed secret])\n hashed secret is optional and can make signature verification\n quicker in case of multeple secrets for one username
+Katello -> Signo : Get secret(s) for username
+Signo -> Katello : secret
+Katello -> CLI : Response
+
+@enduml
