@@ -78,7 +78,7 @@ class KatelloBridgeGenerator:
                 description = op[1].get('help', '')
                 required = '(required)' in description
                 description = description.replace(' (required)', '')
-                cmd.add_option(Option([op[0]], description, required=required))
+                cmd.add_option(Option(list(op[0]), description, required=required))
             commands.append(cmd)
         return commands
 
