@@ -1,3 +1,4 @@
 .bundle
+*.pyc
 kartit/coverage
 kartit-foreman/coverage
