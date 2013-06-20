@@ -3,6 +3,8 @@ Signo integration
 
 ![Design draft](oauth_sequence.png)
 
+
+
 User stories
 ------------
 
@@ -14,3 +16,13 @@ User stories
 * As a CLI user I would like to set expiration in the request (e.g. longer for cron jobs)
 * As a CLI user I would like to limit scope of actions the secret authorizes me to do
 * As a CLI user I would like to be able to disable the secret
+* As a CLI user I would like to be able to remove expired secrets
+
+
+
+Things to solve
+---------------
+
+* How to handle attempt to auth with invalid cert (error/try to get new secret)
+* Should be passing password on commandline
+* How to protect stored secrets on client
