@@ -11,17 +11,17 @@ end box
 autonumber
 
 ...Login...
-CLI -> Signo : Login (username, password, [expiration])
+CLI -> Signo : <color #118888>[SSL/TLS]</color> Login (username, password, [expiration])
 note right : optional parameter expiration suggests \n how long the secret should last
-Signo -> CLI : secret
+Signo -> CLI : <color #118888>[SSL/TLS]</color> secret
 
 ...Request...
 CLI -> Katello : Request (username, signature, [hashed secret])
-note right : hashed secret is optional and can make signature verification\n quicker in case of multiple secrets for one username
-Katello -> Signo : Get secret(s) for username
+note right : hashed secret is optional and can \n make signature verification quicker in case \n of multiple secrets for one username
+Katello -> Signo : <color #118888>[SSL/TLS]</color> Get secret(s) for username
 note right : Katello asks for all username's secrets \n (can be filtered by secret hash)
-Signo -> Katello : secret
-note right : Katello signs the request and compare signatures \n until match is found
+Signo -> Katello : <color #118888>[SSL/TLS]</color> secret
+note right : Katello computes signature for \n the request based on fetched secret \n and compare request signature
 Katello -> CLI : Response
 
 @enduml
