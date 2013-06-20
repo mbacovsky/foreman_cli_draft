@@ -23,6 +23,6 @@ User stories
 Things to solve
 ---------------
 
-* How to handle attempt to auth with invalid cert (error/try to get new secret)
-* Should be passing password on commandline
-* How to protect stored secrets on client
+* How to handle attempt to auth with invalid cert? (error/try to get new secret)
+* Shouldn't we remove passing passwords as parameter on commandline? What use cases it could brake? UX?
+* How to protect stored secrets on client?
