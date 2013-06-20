@@ -8,12 +8,20 @@ box "Shared secret"
     participant Katello
 end box
 
-CLI -> Signo : Login (username, password)
+autonumber
+
+...Login...
+CLI -> Signo : Login (username, password, [expiration])
+note right : optional parameter expiration suggests \n how long the secret should last
 Signo -> CLI : secret
 
-CLI -> Katello : Request (username, signature, [hashed secret])\n hashed secret is optional and can make signature verification\n quicker in case of multeple secrets for one username
+...Request...
+CLI -> Katello : Request (username, signature, [hashed secret])
+note right : hashed secret is optional and can make signature verification\n quicker in case of multiple secrets for one username
 Katello -> Signo : Get secret(s) for username
+note right : Katello asks for all username's secrets \n (can be filtered by secret hash)
 Signo -> Katello : secret
+note right : Katello signs the request and compare signatures \n until match is found
 Katello -> CLI : Response
 
 @enduml
