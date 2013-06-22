@@ -8,6 +8,10 @@ module Kartit::Apipie
       @success_message
     end
 
+    def self.failure_message msg=nil
+      @failure_message = msg unless msg.nil?
+      @failure_message
+    end
 
     def execute
       send_request
@@ -19,6 +23,10 @@ module Kartit::Apipie
 
     def success_message
       self.class.success_message
+    end
+
+    def failure_message
+      self.class.failure_message
     end
 
     def print_message
@@ -35,6 +43,9 @@ module Kartit::Apipie
       method_options
     end
 
+    def handle_exception e
+      exception_handler.handle_exception e, :message => failure_message
+    end
   end
 
 end

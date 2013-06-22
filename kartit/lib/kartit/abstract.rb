@@ -1,4 +1,5 @@
 require 'kartit/autocompletion'
+require 'kartit/exception_handler'
 require 'clamp'
 
 module Kartit
@@ -11,6 +12,8 @@ module Kartit
       exit_code = super(arguments)
       raise "exit code must be integer" unless exit_code.is_a? Integer
       return exit_code
+    rescue Exception => e
+      handle_exception e
     end
 
     def parse(arguments)
@@ -31,6 +34,14 @@ module Kartit
     end
 
     protected
+
+    def handle_exception e
+      exception_handler.handle_exception(e)
+    end
+
+    def exception_handler
+      @exception_handler ||= Kartit::ExceptionHandler.new
+    end
 
     def all_options
       self.class.declared_options.inject({}) do |h, opt|
