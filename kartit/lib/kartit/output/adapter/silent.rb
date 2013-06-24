@@ -6,7 +6,7 @@ module Kartit::Output::Adapter
     def print_message msg
     end
 
-    def print_error msg
+    def print_error msg, details=[]
     end
 
     def print_records fields, data, heading=nil

@@ -8,10 +8,6 @@ module Kartit::Apipie
     include Kartit::Apipie::Resource
     include Kartit::Apipie::Options
 
-    def output
-      @output ||= Kartit::Output::Output.new
-    end
-
     def execute
     end
 

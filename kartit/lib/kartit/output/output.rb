@@ -7,6 +7,7 @@ module Kartit::Output
 
     def adapter
       @adapter ||= Kartit::Output::Adapter::Base.new
+      #@adapter ||= Kartit::Output::Adapter::Table.new
     end
 
     def definition= definition
@@ -29,8 +30,8 @@ module Kartit::Output
       adapter.print_message(msg.to_s)
     end
 
-    def print_error msg
-      adapter.print_error(msg.to_s)
+    def print_error msg, details=nil
+      adapter.print_error(msg.to_s, details)
     end
 
     def print_records records, heading=nil

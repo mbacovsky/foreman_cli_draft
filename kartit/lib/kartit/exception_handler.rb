@@ -3,9 +3,14 @@ require 'rest_client'
 module Kartit
   class ExceptionHandler
 
+    def initialize options={}
+      @output = options[:output] or raise "Missing option output"
+    end
+
     def mappings
       {
-        RestClient::ResourceNotFound => :handle_not_found
+        RestClient::ResourceNotFound => :handle_not_found,
+        RestClient::Unauthorized => :handle_unauthorized
       }
     end
 
@@ -19,20 +24,22 @@ module Kartit
 
     protected
 
-    def print_message_wrapped lines
-      lines = lines.split("\n") if lines.kind_of? String
-
-      if @options[:message].nil?
-        puts lines.join("\n")
+    def print_error error
+      if @options[:heading]
+        @output.print_error @options[:heading], error.join("\n")
       else
-        indent = "  "
-        puts @options[:message] + ":"
-        puts indent + lines.join("\n"+indent)
+        @output.print_error error.join("\n")
       end
     end
 
+
     def handle_not_found e
-      print_message_wrapped e.message
+      print_error e.message
+      32
+    end
+
+    def handle_unauthorized e
+      print_error "Invalid username or password"
       32
     end
 

@@ -44,7 +44,7 @@ module Kartit::Apipie
     end
 
     def handle_exception e
-      exception_handler.handle_exception e, :message => failure_message
+      exception_handler.handle_exception e, :heading => failure_message
     end
   end
 
