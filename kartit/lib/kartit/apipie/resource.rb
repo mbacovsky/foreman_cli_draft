@@ -11,25 +11,24 @@ module Kartit::Apipie
       config[:username] = Kartit::Settings[:username]
       config[:password] = Kartit::Settings[:password]
 
-      self.class.api_resource.new(config)
+      self.class.resource.new(config)
     end
 
     def action
-      self.class.api_action
+      self.class.action
     end
 
     module ClassMethods
 
-      attr_accessor :api_resource
-      attr_accessor :api_action
-
-      def resource resource, action=nil
-        @api_resource = resource
+      def resource resource=nil, action=nil
+        @api_resource = resource unless resource.nil?
         @api_action = action unless action.nil?
+        @api_resource
       end
 
-      def action action
-        @api_action = action
+      def action action=nil
+        @api_action = action unless action.nil?
+        @api_action
       end
 
       def method_doc
@@ -40,7 +39,7 @@ module Kartit::Apipie
       end
 
       def resource_defined?
-        not (api_resource.nil? or api_action.nil?)
+        not (@api_resource.nil? or @api_action.nil?)
       end
 
     end

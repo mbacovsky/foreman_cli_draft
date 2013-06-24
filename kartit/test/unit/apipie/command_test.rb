@@ -15,20 +15,33 @@ describe Kartit::Apipie::Command do
 
     it "should set resource and action together" do
       cmd_class.resource FakeApi::Resources::Architecture, :index
+
       cmd.resource.must_be_instance_of FakeApi::Resources::Architecture
+      cmd_class.resource.must_equal FakeApi::Resources::Architecture
+
       cmd.action.must_equal :index
+      cmd_class.action.must_equal :index
     end
 
     it "should set resource alone" do
       cmd_class.resource FakeApi::Resources::Architecture
+
       cmd.resource.must_be_instance_of FakeApi::Resources::Architecture
+      cmd_class.resource.must_equal FakeApi::Resources::Architecture
+
       cmd.action.must_equal nil
+      cmd_class.action.must_equal nil
     end
 
     it "should set resource and action alone" do
       cmd_class.resource FakeApi::Resources::Architecture
       cmd_class.action :index
+
+      cmd.resource.must_be_instance_of FakeApi::Resources::Architecture
+      cmd_class.resource.must_equal FakeApi::Resources::Architecture
+
       cmd.action.must_equal :index
+      cmd_class.action.must_equal :index
     end
 
   end

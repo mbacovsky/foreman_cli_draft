@@ -20,3 +20,56 @@ require "mocha/setup"
 
 require 'kartit_foreman'
 
+require_relative 'test_output_adapter'
+
+
+module CommandTestHelper
+
+  def it_should_fail_with message, arguments=[]
+    it "should fail with " + message.to_s do
+      cmd.output.adapter = Kartit::Output::Adapter::Silent.new
+      proc { cmd.run(arguments) }.must_raise Clamp::UsageError
+    end
+  end
+
+  def it_should_accept message, arguments=[]
+    it "should fail with " + message.to_s do
+      cmd.output.adapter = Kartit::Output::Adapter::Silent.new
+      cmd.run(arguments).must_equal 0
+    end
+  end
+
+  def it_should_print_column column_name, arguments=nil
+    arguments ||= @with_params || []
+    it "should print column " + column_name do
+      cmd.output.adapter = TestAdapter.new
+      proc { cmd.run(arguments) }.must_output /.*##{column_name}#.*/
+    end
+  end
+
+  def it_should_print_columns column_names, arguments=nil
+    column_names.each do |name|
+      it_should_print_column name, arguments
+    end
+  end
+
+  def it_should_print_n_records count=nil, arguments=nil
+    arguments ||= @with_params || []
+
+    it "should print " + count.to_s + " records" do
+      cmd.output.adapter = TestAdapter.new
+      count ||= expected_record_count rescue 0
+      out, err = capture_io do
+        cmd.run(arguments)
+      end
+      out.split(/\n/).length.must_equal count+1 # plus 1 for line with column headers
+    end
+  end
+
+  def with_params arguments
+    @with_params = arguments
+    yield
+    @with_params = nil
+  end
+
+end
