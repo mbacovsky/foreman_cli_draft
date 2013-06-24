@@ -59,11 +59,11 @@ module Kartit::Apipie
       end
 
       def option_switches param
-        '--' + param["name"].sub('_', '-')
+        '--' + param["name"].gsub('_', '-')
       end
 
       def option_type param
-        param["name"].upcase.sub('-', '_')
+        param["name"].upcase.gsub('-', '_')
       end
 
       def option_desc param

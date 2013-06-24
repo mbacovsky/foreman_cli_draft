@@ -62,11 +62,11 @@ describe Kartit::Apipie::Command do
       end
 
       it "should set correct switch" do
-        option.switches.must_be :include?, '--search-val-ue'
+        option.switches.must_be :include?, '--se-arch-val-ue'
       end
 
       it "should set correct attribute name" do
-        option.attribute_name.must_equal 'search_val_ue'
+        option.attribute_name.must_equal 'se_arch_val_ue'
       end
 
       it "should set description with html tags stripped" do
