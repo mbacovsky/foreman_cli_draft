@@ -6,12 +6,9 @@ module Kartit::Apipie
     end
 
     def resource
-      config = {}
-      config[:base_url] = Kartit::Settings[:host]
-      config[:username] = Kartit::Settings[:username]
-      config[:password] = Kartit::Settings[:password]
-
-      self.class.resource.new(config)
+      self.class.resource.new base_url: Kartit::Settings[:host],
+                              username: Kartit::Settings[:username],
+                              password: Kartit::Settings[:password]
     end
 
     def action
@@ -32,10 +29,10 @@ module Kartit::Apipie
       end
 
       def method_doc
-        @api_resource.doc["methods"].each do |method|
-          return method if method["name"] == @api_action.to_s
-        end
-        raise "No method documentation found for #{@api_resource}##{@api_action}"
+        @api_resource.doc["methods"].find do |method|
+          method["name"] == @api_action.to_s
+        end or
+            raise "No method documentation found for #{@api_resource}##{@api_action}"
       end
 
       def resource_defined?
