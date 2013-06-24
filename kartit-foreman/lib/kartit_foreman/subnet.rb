@@ -59,6 +59,13 @@ module KartitForeman
       resource ForemanApi::Resources::Subnet, "create"
 
       apipie_options
+
+      def validate_options
+        signal_usage_error "--name is required." if name.nil?
+        signal_usage_error "--mask is required." if mask.nil?
+        signal_usage_error "--network is required." if network.nil?
+      end
+
     end
 
 

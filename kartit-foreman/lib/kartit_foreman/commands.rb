@@ -68,7 +68,7 @@ module KartitForeman
     end
 
     def self.apipie_options options={}
-      super(options.merge(:without => ["name", "id"]))
+      super({:without => ['name', 'id']}.merge(options))
     end
 
   end
