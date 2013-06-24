@@ -1,6 +1,8 @@
 module Kartit::Output
   class Output
 
+    # TODO immutable with initializer?
+
     def adapter= adapter
       @adapter = adapter
     end

@@ -3,6 +3,8 @@ require 'kartit/output/adapter/base'
 module Kartit::Output
   class DefinitionInterpreter
 
+    # TODO immutable with initializer?
+
     def definition= definition
       @definition = definition
       clear
@@ -15,17 +17,13 @@ module Kartit::Output
     end
 
     def fields
-      return @fields unless @fields.nil?
-
-      @fields = @definition.fields.collect do |field|
+      @fields ||= @definition.fields.collect do |field|
         Kartit::Output::Field.new(field.key, field.label, field.options)
       end
     end
 
     def data
-      return @data unless @data.nil?
-
-      @data = @records.collect do |record|
+      @data ||= @records.collect do |record|
         @definition.fields.inject({}) do |result, field|
           result[field.key] = value_for_field(field, record)
           result
@@ -40,33 +38,33 @@ module Kartit::Output
     end
 
     def symbolize_hash_keys h
-      return h.inject({}){|result,(k,v)| result[k.to_sym] = v; result}
+      h.inject({}) { |result, (k, v)| result.update k.to_sym => v }
     end
 
     def value_for_field field, record
       record = follow_path(record, field.path || [])
 
-      if not field.record_formatter.nil?
-        return field.record_formatter.call(record)
-
+      if field.record_formatter
+        field.record_formatter.call(record)
       else
         value = record[field.key.to_sym] rescue nil
-        return field.formatter.call(value) if not field.formatter.nil?
-        return value
+        if field.formatter
+          field.formatter.call(value)
+        else
+          value
+        end
       end
     end
 
-    def follow_path record, path
+    def follow_path(record, path) # FIXME missing parenthesis everywhere
       record = symbolize_hash_keys(record)
-      path.each do |path_key|
+      path.inject record do |record, path_key|
         if record.has_key? path_key.to_sym
-          record = record[path_key.to_sym]
-          record = symbolize_hash_keys(record)
+          symbolize_hash_keys record[path_key.to_sym]
         else
           return nil
         end
       end
-      record
     end
 
   end

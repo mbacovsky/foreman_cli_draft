@@ -24,7 +24,7 @@ module Kartit::Output
         super key, label, options
       end
 
-      attr_accessor :formatter, :record_formatter, :path
+      attr_accessor :formatter, :record_formatter, :path # TODO writer needed?
 
       def path= path
         @path = path

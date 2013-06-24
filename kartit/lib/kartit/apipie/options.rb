@@ -26,7 +26,7 @@ module Kartit::Apipie
       opts
     end
 
-    module ClassMethods
+    module ClassMethods # TODO apipie_options should have its class
 
       def apipie_options options={}
         raise "Specify apipie resource first." unless resource_defined?
