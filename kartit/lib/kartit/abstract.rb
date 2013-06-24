@@ -33,6 +33,10 @@ module Kartit
       #Kartit::Settings.load(YAML::load(File.open('/etc/foreman/cli_config.yml')))
     end
 
+    def output
+      @output ||= Kartit::Output::Output.new
+    end
+
     protected
 
     def handle_exception e
@@ -40,7 +44,7 @@ module Kartit
     end
 
     def exception_handler
-      @exception_handler ||= Kartit::ExceptionHandler.new
+      @exception_handler ||= Kartit::ExceptionHandler.new :output => output
     end
 
     def all_options

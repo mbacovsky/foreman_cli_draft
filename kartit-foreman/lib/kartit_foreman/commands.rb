@@ -6,7 +6,7 @@ module KartitForeman
   class ListCommand < Kartit::Apipie::ReadCommand
 
     def exception_handler
-      @exception_handler ||= KartitForeman::ExceptionHandler.new
+      @exception_handler ||= KartitForeman::ExceptionHandler.new :output => output
     end
   end
 
@@ -27,7 +27,7 @@ module KartitForeman
     end
 
     def exception_handler
-      @exception_handler ||= KartitForeman::ExceptionHandler.new
+      @exception_handler ||= KartitForeman::ExceptionHandler.new :output => output
     end
 
     def self.apipie_options options={}
@@ -39,7 +39,7 @@ module KartitForeman
   class CreateCommand < Kartit::Apipie::WriteCommand
 
     def exception_handler
-      @exception_handler ||= KartitForeman::ExceptionHandler.new
+      @exception_handler ||= KartitForeman::ExceptionHandler.new :output => output
     end
 
   end
@@ -64,7 +64,7 @@ module KartitForeman
     end
 
     def exception_handler
-      @exception_handler ||= KartitForeman::ExceptionHandler.new
+      @exception_handler ||= KartitForeman::ExceptionHandler.new :output => output
     end
 
     def self.apipie_options options={}
@@ -90,7 +90,7 @@ module KartitForeman
     end
 
     def exception_handler
-      @exception_handler ||= KartitForeman::ExceptionHandler.new
+      @exception_handler ||= KartitForeman::ExceptionHandler.new :output => output
     end
 
     def self.apipie_options options={}

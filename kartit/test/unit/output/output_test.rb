@@ -64,6 +64,7 @@ describe Kartit::Output::Output do
   context "messages" do
 
     let(:msg) { "Some message" }
+    let(:details) { "Some\nmessage\ndetails" }
 
     it "prints info message via adapter" do
       @adapter.expect(:print_message, nil, [msg])
@@ -72,13 +73,19 @@ describe Kartit::Output::Output do
     end
 
     it "prints error message via adapter" do
-      @adapter.expect(:print_error, nil, [msg])
+      @adapter.expect(:print_error, nil, [msg, nil])
       @out.print_error(msg)
       @adapter.verify
     end
 
+    it "prints error message with details via adapter" do
+      @adapter.expect(:print_error, nil, [msg, details])
+      @out.print_error(msg, details)
+      @adapter.verify
+    end
+
     it "prints error message from exception via adapter" do
-      @adapter.expect(:print_error, nil, [msg])
+      @adapter.expect(:print_error, nil, [msg, nil])
       @out.print_error(Exception.new(msg))
       @adapter.verify
     end

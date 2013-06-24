@@ -3,7 +3,8 @@ require 'kartit_foreman/exception_handler'
 
 describe KartitForeman::ExceptionHandler do
 
-  let(:handler) { KartitForeman::ExceptionHandler.new }
+  let(:output) { Kartit::Output::Output.new }
+  let(:handler) { KartitForeman::ExceptionHandler.new :output => output }
 
   it "should print resource errors on unprocessable entity exception" do
    response = <<-RESPONSE
@@ -11,10 +12,8 @@ describe KartitForeman::ExceptionHandler do
    RESPONSE
 
     e = RestClient::UnprocessableEntity.new(response)
-    #binding.pry
-    proc { handler.handle_exception(e) }.must_output /.*Network address can't be blank.*/
-    proc { handler.handle_exception(e) }.must_output /.*Network address is invalid.*/
-    proc { handler.handle_exception(e) }.must_output /.*Name can't be blank.*/
+    output.expects(:print_error).with("Heading", "Network address can't be blank\nNetwork address is invalid\nName can't be blank")
+    handler.handle_exception(e, :heading => "Heading")
   end
 
 end

@@ -7,8 +7,16 @@ module Kartit::Output::Adapter
       puts msg
     end
 
-    def print_error msg
-      $stderr.puts msg
+    def print_error msg, details=nil
+      details = details.split("\n") if details.kind_of? String
+
+      if details
+        indent = "  "
+        $stderr.puts msg+":"
+        $stderr.puts indent + details.join("\n"+indent)
+      else
+        $stderr.puts msg
+      end
     end
 
     def print_records fields, data, heading=nil
