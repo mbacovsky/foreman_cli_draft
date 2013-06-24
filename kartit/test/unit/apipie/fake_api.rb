@@ -47,8 +47,8 @@
                 "errors"=>[],
                 "params"=>
                  [{"allow_nil"=>false,
-                   "name"=>"search_val-ue",
-                   "full_name"=>"search_val-ue_full_name",
+                   "name"=>"se_arch_val-ue",
+                   "full_name"=>"se_arch_val-ue_full_name",
                    "validator"=>"Must be String",
                    "description"=>"<p>filter results</p>",
                    "expected_type"=>"string",
