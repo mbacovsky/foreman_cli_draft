@@ -1,11 +1,13 @@
 require 'kartit'
 require 'foreman_api'
 require 'kartit_foreman/formatters'
+require 'kartit_foreman/commands'
 
 module KartitForeman
 
   class Architecture < Kartit::AbstractCommand
-    class ListCommand < Kartit::Apipie::ReadCommand
+
+    class ListCommand < KartitForeman::ListCommand
 
       heading "Architecture list"
       output do
@@ -21,76 +23,40 @@ module KartitForeman
 
     end
 
-    class InfoCommand < Kartit::Apipie::ReadCommand
 
-      option "--id", "ID", "architecture id"
-      option "--name", "NAME", "architecture name"
+    class InfoCommand < KartitForeman::InfoCommand
 
       heading "Architecture info"
       output ListCommand.output_definition
 
       resource ForemanApi::Resources::Architecture, "show"
 
-      def validate_options
-        if name.nil? and id.nil?
-          signal_usage_error "Either --id or --name is required."
-        end
-      end
-
-      def request_params
-        {'id' => (id || name)}
-      end
     end
 
-    class CreateCommand < Kartit::Apipie::WriteCommand
+
+    class CreateCommand < KartitForeman::CreateCommand
 
       option "--name", "NAME", "architecture name", :required => true
 
       success_message "Architecture created"
       resource ForemanApi::Resources::Architecture, "create"
 
-      def request_params
-        {'name' => name}
-      end
     end
 
-    class DeleteCommand < Kartit::Apipie::WriteCommand
 
-      option "--name", "NAME", "architecture name"
-      option "--id", "ID", "architecture id"
+    class DeleteCommand < KartitForeman::DeleteCommand
 
       success_message "Architecture deleted"
       resource ForemanApi::Resources::Architecture, "destroy"
 
-      def validate_options
-        if name.nil? and id.nil?
-          signal_usage_error "Either --id or --name is required."
-        end
-      end
-
-      def request_params
-        {'id' => (id || name)}
-      end
     end
 
-    class UpdateCommand < Kartit::Apipie::WriteCommand
 
-      option "--name", "NAME", "architecture name"
-      option "--id", "ID", "architecture id"
-      option "--new-name", "NEW_NAME", "new architecture name"
+    class UpdateCommand < KartitForeman::UpdateCommand
 
       success_message "Architecture updated"
       resource ForemanApi::Resources::Architecture, "update"
 
-      def validate_options
-        if name.nil? and id.nil?
-          signal_usage_error "Either --id or --name is required."
-        end
-      end
-
-      def request_params
-        {'id' => (id || name), 'name' => new_name}
-      end
     end
 
     subcommand "list", "List architectures.", KartitForeman::Architecture::ListCommand
