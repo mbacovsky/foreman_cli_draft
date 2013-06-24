@@ -1,8 +1,9 @@
 require_relative 'test_helper'
 require_relative 'apipie_resource_mock'
+require_relative 'test_output_adapter'
 
 
-describe KartitForeman::Architecture do
+describe KartitForeman::ComputeResource do
 
   extend CommandTestHelper
 
@@ -13,7 +14,7 @@ describe KartitForeman::Architecture do
 
   context "ListCommand" do
 
-    let(:cmd) { KartitForeman::Architecture::ListCommand.new("") }
+    let(:cmd) { KartitForeman::ComputeResource::ListCommand.new("") }
 
     context "parameters" do
       it_should_accept "no arguments"
@@ -23,8 +24,7 @@ describe KartitForeman::Architecture do
       let(:expected_record_count) { cmd.resource.index[0].length }
 
       it_should_print_n_records
-      it_should_print_column "Name"
-      it_should_print_column "Id"
+      it_should_print_columns ["Name", "Id", "Provider"]
     end
 
   end
@@ -32,7 +32,7 @@ describe KartitForeman::Architecture do
 
   context "InfoCommand" do
 
-    let(:cmd) { KartitForeman::Architecture::InfoCommand.new("") }
+    let(:cmd) { KartitForeman::ComputeResource::InfoCommand.new("") }
 
     context "parameters" do
       it_should_accept "id", ["--id=1"]
@@ -42,10 +42,8 @@ describe KartitForeman::Architecture do
 
     context "output" do
       with_params ["--id=1"] do
-
         it_should_print_n_records 1
-        it_should_print_column "Name"
-        it_should_print_column "Id"
+        it_should_print_columns ["Name", "Id", "Provider", "Url"]
       end
     end
 
@@ -54,7 +52,7 @@ describe KartitForeman::Architecture do
 
   context "CreateCommand" do
 
-    let(:cmd) { KartitForeman::Architecture::CreateCommand.new("") }
+    let(:cmd) { KartitForeman::ComputeResource::CreateCommand.new("") }
 
     context "parameters" do
       it_should_accept "name", ["--name=arch"]
@@ -66,7 +64,7 @@ describe KartitForeman::Architecture do
 
   context "DeleteCommand" do
 
-    let(:cmd) { KartitForeman::Architecture::DeleteCommand.new("") }
+    let(:cmd) { KartitForeman::ComputeResource::DeleteCommand.new("") }
 
     context "parameters" do
       it_should_accept "name", ["--name=arch"]
@@ -79,7 +77,7 @@ describe KartitForeman::Architecture do
 
   context "UpdateCommand" do
 
-    let(:cmd) { KartitForeman::Architecture::UpdateCommand.new("") }
+    let(:cmd) { KartitForeman::ComputeResource::UpdateCommand.new("") }
 
     context "parameters" do
       it_should_accept "name", ["--name=arch", "--new-name=arch2"]
