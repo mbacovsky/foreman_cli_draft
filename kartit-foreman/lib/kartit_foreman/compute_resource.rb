@@ -1,11 +1,13 @@
 require 'kartit'
 require 'foreman_api'
 require 'kartit_foreman/formatters'
+require 'kartit_foreman/commands'
 
 module KartitForeman
 
   class ComputeResource < Kartit::AbstractCommand
-    class ListCommand < Kartit::Apipie::ReadCommand
+
+    class ListCommand < KartitForeman::ListCommand
       resource ForemanApi::Resources::ComputeResource, "index"
 
       heading "Compute resource list"
@@ -22,7 +24,7 @@ module KartitForeman
     end
 
 
-    class InfoCommand < Kartit::Apipie::ReadCommand
+    class InfoCommand < KartitForeman::InfoCommand
 
       PROVIDER_SPECIFIC_FIELDS = {
         'ovirt' => [
@@ -47,9 +49,6 @@ module KartitForeman
 
       resource ForemanApi::Resources::ComputeResource, "show"
 
-      option "--id", "ID", "compute resource id"
-      option "--name", "NAME", "compute resource name"
-
       heading "Compute resource info"
       output ListCommand.output_definition do
         from "compute_resource" do
@@ -65,19 +64,10 @@ module KartitForeman
         super data
       end
 
-      def validate_options
-        if name.nil? and id.nil?
-          signal_usage_error "Either --id or --name is required."
-        end
-      end
-
-      def request_params
-        {'id' => (id || name)}
-      end
     end
 
 
-    class CreateCommand < Kartit::Apipie::WriteCommand
+    class CreateCommand < KartitForeman::CreateCommand
 
       success_message "Compute resource created"
       resource ForemanApi::Resources::ComputeResource, "create"
@@ -86,34 +76,21 @@ module KartitForeman
     end
 
 
-    class UpdateCommand < Kartit::Apipie::WriteCommand
+    class UpdateCommand < KartitForeman::UpdateCommand
 
       success_message "Compute resource updated"
       resource ForemanApi::Resources::ComputeResource, "update"
 
-      apipie_options :without => "name"
-      option "--name", "NAME", "compute resource name", :attribute_name => :current_name
-      option "--new-name", "NEW_NAME", "new name for the compute resource", :attribute_name => :name
-
-      def request_params
-        params = method_options
-        params['id'] = id || current_name
-        params
-      end
+      apipie_options
     end
 
 
-    class DeleteCommand < Kartit::Apipie::WriteCommand
+    class DeleteCommand < KartitForeman::DeleteCommand
 
       success_message "Compute resource deleted"
       resource ForemanApi::Resources::ComputeResource, "destroy"
 
       apipie_options
-      option "--name", "NAME", "compute resource name"
-
-      def request_params
-        {'id' => (id || name)}
-      end
     end
 
     subcommand "list", "List architectures.", KartitForeman::ComputeResource::ListCommand
