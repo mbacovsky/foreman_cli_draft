@@ -1,30 +1,14 @@
 module Kartit::Output
   class Output
 
-    def adapter= adapter
-      @adapter = adapter
+    def initialize options={}
+      @adapter = options[:adapter] || Kartit::Output::Adapter::Base.new
+      @definition = options[:definition] || Kartit::Output::Definition.new
+      @interpreter = options[:interpreter] || Kartit::Output::DefinitionInterpreter.new
     end
 
-    def adapter
-      @adapter ||= Kartit::Output::Adapter::Base.new
-      #@adapter ||= Kartit::Output::Adapter::Table.new
-    end
-
-    def definition= definition
-      @definition = definition
-    end
-
-    def definition
-      @definition ||= Kartit::Output::Definition.new
-    end
-
-    def interpreter= interpreter
-      @interpreter = interpreter
-    end
-
-    def interpreter
-      @interpreter ||= Kartit::Output::DefinitionInterpreter.new
-    end
+    attr_accessor :adapter
+    attr_reader :definition, :interpreter
 
     def print_message msg
       adapter.print_message(msg.to_s)

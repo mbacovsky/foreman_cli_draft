@@ -4,24 +4,16 @@ describe Kartit::Output::Output do
 
 
   before :each do
-    @adapter = MiniTest::Mock.new
+    @adapter = Kartit::Output::Adapter::Silent
 
-    @interpreter = Object.new
-    def @interpreter.definition=(d)
-    end
-    def @interpreter.records=(r)
-      @records = r
-    end
-    def @interpreter.fields
-      :fields
-    end
-    def @interpreter.data
-      @records
-    end
+    @interpreter = Kartit::Output::DefinitionInterpreter.new
+    @interpreter.stubs(:fields).returns(:fields)
 
-    @out = Kartit::Output::Output.new
-    @out.adapter = @adapter
-    @out.interpreter = @interpreter
+    @definition = Kartit::Output::Definition.new
+
+    @out = Kartit::Output::Output.new :adapter => @adapter,
+                                      :interpreter => @interpreter,
+                                      :definition => @definition
   end
 
   context "dependency injection" do
@@ -29,18 +21,15 @@ describe Kartit::Output::Output do
     let(:fake) { Object.new }
 
     it "should assign interpreter" do
-      @out.interpreter = fake
-      @out.interpreter.must_equal fake
+      @out.interpreter.must_equal @interpreter
     end
 
     it "should assign definition" do
-      @out.definition = fake
-      @out.definition.must_equal fake
+      @out.definition.must_equal @definition
     end
 
     it "should assign adapter" do
-      @out.adapter = fake
-      @out.adapter.must_equal fake
+      @out.adapter.must_equal @adapter
     end
 
     context "default instances" do
@@ -67,27 +56,23 @@ describe Kartit::Output::Output do
     let(:details) { "Some\nmessage\ndetails" }
 
     it "prints info message via adapter" do
-      @adapter.expect(:print_message, nil, [msg])
+      @adapter.expects(:print_message).with(msg)
       @out.print_message(msg)
-      @adapter.verify
     end
 
     it "prints error message via adapter" do
-      @adapter.expect(:print_error, nil, [msg, nil])
+      @adapter.expects(:print_error).with(msg, nil)
       @out.print_error(msg)
-      @adapter.verify
     end
 
     it "prints error message with details via adapter" do
-      @adapter.expect(:print_error, nil, [msg, details])
+      @adapter.expects(:print_error).with(msg, details)
       @out.print_error(msg, details)
-      @adapter.verify
     end
 
     it "prints error message from exception via adapter" do
-      @adapter.expect(:print_error, nil, [msg, nil])
+      @adapter.expects(:print_error).with(msg, nil)
       @out.print_error(Exception.new(msg))
-      @adapter.verify
     end
   end
 
@@ -100,27 +85,23 @@ describe Kartit::Output::Output do
 
     context "prints single resource" do
       it "without header" do
-        @adapter.expect(:print_records, nil, [:fields, [item1], nil])
+        @adapter.expects(:print_records).with(:fields, [item1], nil)
         @out.print_records(item1)
-        @adapter.verify
       end
       it "with header" do
-        @adapter.expect(:print_records, nil, [:fields, [item1], heading])
+        @adapter.expects(:print_records).with(:fields, [item1], heading)
         @out.print_records(item1, heading)
-        @adapter.verify
       end
     end
 
     context "prints array of resources" do
       it "without header" do
-        @adapter.expect(:print_records, nil, [:fields, collection, nil])
+        @adapter.expects(:print_records).with(:fields, collection, nil)
         @out.print_records(collection)
-        @adapter.verify
       end
       it "with header" do
-        @adapter.expect(:print_records, nil, [:fields, collection, heading])
+        @adapter.expects(:print_records).with(:fields, collection, heading)
         @out.print_records(collection, heading)
-        @adapter.verify
       end
     end
 
