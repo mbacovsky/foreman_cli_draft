@@ -2,13 +2,13 @@ module Kartit::Output
 
   class Field
 
-    def initialize key, label, options={}
-      self.key = key
-      self.label = label
-      self.options = options
+    def initialize(key, label, options={})
+      @key = key
+      @label = label
+      @options = options
     end
 
-    attr_accessor :key, :label, :options
+    attr_reader :key, :label, :options
   end
 
 
@@ -16,31 +16,27 @@ module Kartit::Output
 
     class Field < Kartit::Output::Field
 
-      def initialize key, label, options={}
-        self.formatter = options.delete(:formatter)
-        self.record_formatter = options.delete(:record_formatter)
-        self.path = options.delete(:path) || []
-        self.formatter = Proc.new if block_given?
+      def initialize(key, label, options={})
+        @formatter = options.delete(:formatter)
+        @formatter = Proc.new if block_given?
+        @record_formatter = options.delete(:record_formatter)
+        @path = options.delete(:path) || []
+        @path = [@path] unless @path.kind_of? Array
         super key, label, options
       end
 
-      attr_accessor :formatter, :record_formatter, :path
-
-      def path= path
-        @path = path
-        @path = [@path] unless @path.kind_of? Array
-      end
+      attr_reader :formatter, :record_formatter, :path
     end
 
     def initialize
       @fields = []
     end
 
-    def add_field key, label, options={}, &block
+    def add_field(key, label, options={}, &block)
       @fields << Field.new(key, label, options, &block)
     end
 
-    def append definition
+    def append(definition)
       @fields += definition.fields unless definition.nil?
     end
 
