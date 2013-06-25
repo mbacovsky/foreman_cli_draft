@@ -26,20 +26,20 @@ describe Kartit::Output::DefinitionInterpreter do
   let(:record_collection) { [item1, item2] }
   let(:definition) { Kartit::Output::Definition.new }
 
-  let(:interpreter) { Kartit::Output::DefinitionInterpreter.new }
+  let(:interpreter) { Kartit::Output::DefinitionInterpreter.new :definition => definition }
+  let(:interpreter_run) { interpreter.run(record_collection) }
 
-  let(:fields) { interpreter.fields }
+  let(:fields) { interpreter_run[0] }
   let(:first_field) { fields[0] }
-  let(:data) { interpreter.data }
+  let(:data) { interpreter_run[1] }
   let(:first_field_values) { data.collect{|d| d[first_field.key]} }
 
   let(:fake_format_func) { format_func = lambda { |x| x } }
   let(:name_format_func) { format_func = lambda { |x| x[:name] } }
   let(:xxx_format_func) { format_func = lambda { |x| "xxx" } }
 
-  before :each do
-    interpreter.definition = definition
-    interpreter.records = record_collection
+  it "should raise exception when definition is missing" do
+    proc { Kartit::Output::DefinitionInterpreter.new }.must_raise RuntimeError
   end
 
   context "fields" do

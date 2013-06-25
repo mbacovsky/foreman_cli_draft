@@ -6,10 +6,10 @@ describe Kartit::Output::Output do
   before :each do
     @adapter = Kartit::Output::Adapter::Silent
 
-    @interpreter = Kartit::Output::DefinitionInterpreter.new
-    @interpreter.stubs(:fields).returns(:fields)
-
     @definition = Kartit::Output::Definition.new
+
+    @interpreter = Kartit::Output::DefinitionInterpreter.new :definition => @definition
+    @interpreter.stubs(:fields).returns(:fields)
 
     @out = Kartit::Output::Output.new :adapter => @adapter,
                                       :interpreter => @interpreter,

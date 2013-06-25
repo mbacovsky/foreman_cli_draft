@@ -3,70 +3,57 @@ require 'kartit/output/adapter/base'
 module Kartit::Output
   class DefinitionInterpreter
 
-    def definition= definition
-      @definition = definition
-      clear
+    def initialize(options={})
+      @definition = options[:definition] or raise "Definition is required"
     end
 
-    def records= records
+    def run(records)
       @records = records
       @records = [@records] unless @records.kind_of?(Array)
-      clear
+      return [fields, data]
     end
 
-    def fields
-      return @fields unless @fields.nil?
+    protected
 
-      @fields = @definition.fields.collect do |field|
+    def fields
+      @definition.fields.collect do |field|
         Kartit::Output::Field.new(field.key, field.label, field.options)
       end
     end
 
     def data
-      return @data unless @data.nil?
-
-      @data = @records.collect do |record|
+      @records.collect do |record|
         @definition.fields.inject({}) do |result, field|
-          result[field.key] = value_for_field(field, record)
-          result
+          result.update field.key => value_for_field(field, record)
         end
       end
     end
 
-    protected
-
-    def clear
-      @data = @fields = nil
+    def symbolize_hash_keys(h)
+      return h.inject({}){|result,(k,v)| result.update k.to_sym => v}
     end
 
-    def symbolize_hash_keys h
-      return h.inject({}){|result,(k,v)| result[k.to_sym] = v; result}
-    end
-
-    def value_for_field field, record
+    def value_for_field(field, record)
       record = follow_path(record, field.path || [])
 
-      if not field.record_formatter.nil?
+      if field.record_formatter
         return field.record_formatter.call(record)
-
       else
         value = record[field.key.to_sym] rescue nil
-        return field.formatter.call(value) if not field.formatter.nil?
+        return field.formatter.call(value) if field.formatter
         return value
       end
     end
 
-    def follow_path record, path
+    def follow_path(record, path)
       record = symbolize_hash_keys(record)
-      path.each do |path_key|
+      path.inject(record) do |record, path_key|
         if record.has_key? path_key.to_sym
-          record = record[path_key.to_sym]
-          record = symbolize_hash_keys(record)
+          symbolize_hash_keys record[path_key.to_sym]
         else
           return nil
         end
       end
-      record
     end
 
   end

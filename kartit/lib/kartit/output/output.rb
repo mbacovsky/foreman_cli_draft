@@ -4,7 +4,7 @@ module Kartit::Output
     def initialize options={}
       @adapter = options[:adapter] || Kartit::Output::Adapter::Base.new
       @definition = options[:definition] || Kartit::Output::Definition.new
-      @interpreter = options[:interpreter] || Kartit::Output::DefinitionInterpreter.new
+      @interpreter = options[:interpreter] || Kartit::Output::DefinitionInterpreter.new(:definition => @definition)
     end
 
     attr_accessor :adapter
@@ -21,9 +21,8 @@ module Kartit::Output
     def print_records records, heading=nil
       records = [records] unless records.kind_of?(Array)
 
-      interpreter.definition = definition
-      interpreter.records = records
-      adapter.print_records(interpreter.fields, interpreter.data, heading)
+      fields, data = interpreter.run(records)
+      adapter.print_records(fields, data, heading)
     end
 
   end
