@@ -25,10 +25,12 @@ module Kartit
     protected
 
     def print_error error
+      error = error.join("\n") if error.kind_of? Array
+
       if @options[:heading]
-        @output.print_error @options[:heading], error.join("\n")
+        @output.print_error @options[:heading], error
       else
-        @output.print_error error.join("\n")
+        @output.print_error error
       end
     end
 
