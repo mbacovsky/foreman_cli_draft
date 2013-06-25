@@ -1,3 +1,5 @@
 module KartitKatello
-  VERSION = "0.0.1"
+  def self.version
+    @version ||= Gem::Version.new '0.0.1'
+  end
 end

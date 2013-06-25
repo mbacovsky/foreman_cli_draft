@@ -9,7 +9,7 @@ module Kartit
     option ["-p", "--password"], "PASSWORD", "password to access the remote system"
 
     option "--version", :flag, "show version" do
-      puts "kartit-%s" % Kartit::VERSION
+      puts "kartit-%s" % Kartit.version
       exit(0)
     end
 

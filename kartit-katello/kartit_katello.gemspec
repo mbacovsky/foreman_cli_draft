@@ -5,7 +5,7 @@ require "kartit_katello/version"
 Gem::Specification.new do |s|
 
   s.name          = "kartit_katello"
-  s.version       = KartitKatello::VERSION.dup
+  s.version       = KartitKatello.version.dup
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Martin Bačovský"]
   s.email         = "martin.bacovsky@gmail.com"
