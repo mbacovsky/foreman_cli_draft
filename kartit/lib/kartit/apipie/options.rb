@@ -54,7 +54,8 @@ module Kartit::Apipie
         option(
           option_switches(param),
           option_type(param),
-          option_desc(param)
+          option_desc(param),
+          &option_formatter(param)
         )
       end
 
@@ -71,6 +72,18 @@ module Kartit::Apipie
         return " " if desc.empty?
         return desc
       end
+
+      def option_formatter param
+        # FIXME: There is a bug in apipie, it does not produce correct expected type for Arrays
+        # When it's fixed, we should test param["expected_type"] == "array"
+        if param["validator"].include? "Array"
+          return lambda do |val|
+            return val.split "," if val.is_a? String
+            return []
+          end
+        end
+      end
+
     end
   end
 end

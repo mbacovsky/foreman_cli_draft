@@ -27,7 +27,11 @@ module KartitForeman
     class InfoCommand < KartitForeman::InfoCommand
 
       heading "Architecture info"
-      output ListCommand.output_definition
+      output ListCommand.output_definition do
+        from "architecture" do
+          field :operatingsystem_ids, "OS ids"
+        end
+      end
 
       resource ForemanApi::Resources::Architecture, "show"
 
@@ -36,12 +40,11 @@ module KartitForeman
 
     class CreateCommand < KartitForeman::CreateCommand
 
-      option "--name", "NAME", "architecture name", :required => true
-
       success_message "Architecture created"
       failure_message "Could not create the architecture"
       resource ForemanApi::Resources::Architecture, "create"
 
+      apipie_options
     end
 
 
@@ -60,6 +63,7 @@ module KartitForeman
       failure_message "Could not update the architecture"
       resource ForemanApi::Resources::Architecture, "update"
 
+      apipie_options
     end
 
     subcommand "list", "List architectures.", KartitForeman::Architecture::ListCommand

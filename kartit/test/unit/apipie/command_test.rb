@@ -82,13 +82,43 @@ describe Kartit::Apipie::Command do
       end
 
       it "should create options for all parameters except the hash" do
-        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["name", "provider"]
+        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["array_param", "name", "provider"]
       end
 
       it "should name the options correctly" do
-        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["name", "provider"]
+        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["array_param", "name", "provider"]
       end
     end
+
+    context "array params" do
+      before :each do
+        cmd_class.resource FakeApi::Resources::Documented, :create
+        cmd_class.apipie_options
+      end
+
+      let(:cmd) do
+        cmd_class.new("").tap do |cmd|
+          cmd.stubs(:execute).returns(0)
+        end
+      end
+
+      it "should parse comma separated string to array" do
+        cmd.run(["--array-param=valA,valB,valC"])
+        cmd.array_param.must_equal ['valA', 'valB', 'valC']
+      end
+
+      it "should parse string to array of length 1" do
+        cmd.run(["--array-param=valA"])
+        cmd.array_param.must_equal ['valA']
+      end
+
+      it "should parse empty string to empty array" do
+        cmd.run(['--array-param='])
+        cmd.array_param.must_equal []
+      end
+
+    end
+
 
     context "filtering options" do
       before :each do
@@ -97,17 +127,17 @@ describe Kartit::Apipie::Command do
 
       it "should skip filtered options" do
         cmd_class.apipie_options :without => ["provider", "name"]
-        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal []
+        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["array_param"]
       end
 
       it "should skip single filtered option in array" do
         cmd_class.apipie_options :without => ["provider"]
-        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["name"]
+        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["array_param", "name"]
       end
 
       it "should skip single filtered option" do
         cmd_class.apipie_options :without => "provider"
-        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["name"]
+        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["array_param", "name"]
       end
 
     end

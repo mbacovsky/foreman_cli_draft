@@ -82,7 +82,14 @@
                       "expected_type"=>"string",
                       "description"=>
                        "<p>Providers include Libvirt, Ovirt, EC2, Vmware, Openstack, Rackspace</p>",
-                      "required"=>false}]
+                      "required"=>false},
+                     {"name"=>"array_param",
+                      "allow_nil"=>false,
+                      "full_name"=>"documented[array_param]",
+                      "validator"=>"Must be Array",
+                      "expected_type"=>"string",
+                      "description"=>"",
+                      "required"=>false},]
                     }],
                 "full_description"=>""
               }
