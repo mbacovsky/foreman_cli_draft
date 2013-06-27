@@ -65,7 +65,7 @@ module KartitForeman
     class DeleteCommand < KartitForeman::DeleteCommand
 
       success_message "User deleted"
-      success_message "Could not delete the user"
+      failure_message "Could not delete the user"
       resource ForemanApi::Resources::User, "destroy"
 
       apipie_options

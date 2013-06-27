@@ -39,6 +39,7 @@ module KartitForeman
       option "--name", "NAME", "architecture name", :required => true
 
       success_message "Architecture created"
+      failure_message "Could not create the architecture"
       resource ForemanApi::Resources::Architecture, "create"
 
     end
@@ -47,6 +48,7 @@ module KartitForeman
     class DeleteCommand < KartitForeman::DeleteCommand
 
       success_message "Architecture deleted"
+      failure_message "Could not delete the architecture"
       resource ForemanApi::Resources::Architecture, "destroy"
 
     end
@@ -55,6 +57,7 @@ module KartitForeman
     class UpdateCommand < KartitForeman::UpdateCommand
 
       success_message "Architecture updated"
+      failure_message "Could not update the architecture"
       resource ForemanApi::Resources::Architecture, "update"
 
     end

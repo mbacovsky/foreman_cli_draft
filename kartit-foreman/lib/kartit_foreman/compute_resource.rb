@@ -70,6 +70,7 @@ module KartitForeman
     class CreateCommand < KartitForeman::CreateCommand
 
       success_message "Compute resource created"
+      failure_message "Could not create the compute resource"
       resource ForemanApi::Resources::ComputeResource, "create"
 
       apipie_options
@@ -83,6 +84,7 @@ module KartitForeman
     class UpdateCommand < KartitForeman::UpdateCommand
 
       success_message "Compute resource updated"
+      failure_message "Could not update the compute resource"
       resource ForemanApi::Resources::ComputeResource, "update"
 
       apipie_options
@@ -92,6 +94,7 @@ module KartitForeman
     class DeleteCommand < KartitForeman::DeleteCommand
 
       success_message "Compute resource deleted"
+      failure_message "Could not delete the compute resource"
       resource ForemanApi::Resources::ComputeResource, "destroy"
 
       apipie_options

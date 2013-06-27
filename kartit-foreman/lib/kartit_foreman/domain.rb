@@ -64,7 +64,7 @@ module KartitForeman
     class DeleteCommand < KartitForeman::DeleteCommand
 
       success_message "Domain deleted"
-      success_message "Could not delete the domain"
+      failure_message "Could not delete the domain"
       resource ForemanApi::Resources::Domain, "destroy"
 
       apipie_options
