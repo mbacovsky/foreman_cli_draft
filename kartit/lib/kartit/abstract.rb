@@ -3,6 +3,7 @@ require 'kartit/exception_handler'
 require 'clamp'
 
 module Kartit
+
   class AbstractCommand < Clamp::Command
 
     extend Autocompletion
@@ -22,6 +23,7 @@ module Kartit
     end
 
     def execute
+      0
     end
 
     def validate_options
@@ -37,14 +39,25 @@ module Kartit
       @output ||= Kartit::Output::Output.new
     end
 
+    def exception_handler
+      @exception_handler ||= exception_handler_class.new :output => output
+    end
+
     protected
 
     def handle_exception e
       exception_handler.handle_exception(e)
     end
 
-    def exception_handler
-      @exception_handler ||= Kartit::ExceptionHandler.new :output => output
+    def exception_handler_class
+      #search for exception handler class in parent modules/classes
+      module_list = self.class.name.to_s.split('::').inject([Object]) do |mod, class_name|
+        mod << mod[-1].const_get(class_name)
+      end
+      module_list.reverse.each do |mod|
+        return mod.send(:exception_handler_class) if mod.respond_to? :exception_handler_class
+      end
+      return Kartit::ExceptionHandler
     end
 
     def all_options

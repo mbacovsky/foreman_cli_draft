@@ -1,13 +1,9 @@
 require 'kartit'
-require 'kartit_foreman/exception_handler'
 
 module KartitForeman
 
   class ListCommand < Kartit::Apipie::ReadCommand
 
-    def exception_handler
-      @exception_handler ||= KartitForeman::ExceptionHandler.new :output => output
-    end
   end
 
 
@@ -26,10 +22,6 @@ module KartitForeman
       {'id' => (id || name)}
     end
 
-    def exception_handler
-      @exception_handler ||= KartitForeman::ExceptionHandler.new :output => output
-    end
-
     def self.apipie_options options={}
       super(options.merge(:without => ["name", "id"]))
     end
@@ -37,10 +29,6 @@ module KartitForeman
 
 
   class CreateCommand < Kartit::Apipie::WriteCommand
-
-    def exception_handler
-      @exception_handler ||= KartitForeman::ExceptionHandler.new :output => output
-    end
 
   end
 
@@ -63,10 +51,6 @@ module KartitForeman
       params
     end
 
-    def exception_handler
-      @exception_handler ||= KartitForeman::ExceptionHandler.new :output => output
-    end
-
     def self.apipie_options options={}
       super({:without => ['name', 'id']}.merge(options))
     end
@@ -87,10 +71,6 @@ module KartitForeman
 
     def request_params
       {'id' => (id || name)}
-    end
-
-    def exception_handler
-      @exception_handler ||= KartitForeman::ExceptionHandler.new :output => output
     end
 
     def self.apipie_options options={}

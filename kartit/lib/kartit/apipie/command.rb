@@ -8,8 +8,5 @@ module Kartit::Apipie
     include Kartit::Apipie::Resource
     include Kartit::Apipie::Options
 
-    def execute
-    end
-
   end
 end

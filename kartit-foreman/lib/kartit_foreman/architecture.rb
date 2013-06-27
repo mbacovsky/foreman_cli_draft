@@ -45,6 +45,10 @@ module KartitForeman
       resource ForemanApi::Resources::Architecture, "create"
 
       apipie_options
+
+      def validate_options
+        signal_usage_error "--name is required." if name.nil?
+      end
     end
 
 
