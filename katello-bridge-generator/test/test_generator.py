@@ -40,8 +40,14 @@ class TestBridgeGenerator(TestCase):
     def test_command_option_has_name_set(self):
         assert_equals(self._commands()[0].options[0].names.sort(), ['--name', '-n'].sort())
 
-    def test_command_option_has_description_set(self): # and (required) removed
-        assert_equals(self._commands()[0].options[0].description, "resource name")
+    def test_command_option_has_dest_set(self):
+        assert_equals(self._commands()[0].options[0].dest, 'name')
+
+    def test_command_option_has_name_set(self):
+        assert_equals(self._commands()[0].options[0].names.sort(), ['--name', '-n'].sort())
+
+    def test_command_option_has_description_set(self):
+        assert_equals(self._commands()[0].options[0].description, "resource name (required)")
 
     def test_command_option_has_required_set(self):
         assert_true(self._commands()[0].options[0].required)

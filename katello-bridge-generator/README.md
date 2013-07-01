@@ -4,4 +4,4 @@
 
 == CLI generator
 
-    PYTHONPATH=./src python ./src/katello_bridge_generator.py 'katello'
+   python ./src/katello_bridge_generator.py 'katello'

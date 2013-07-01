@@ -15,13 +15,14 @@
 #
 
 class Option:
-    def __init__(cls, names, description, required=False):
+    def __init__(cls, names, description, required=False, dest=None):
         cls.names = names
         cls.description = description
         cls.required = required
+        cls.dest = dest
 
     def __json__(self):
-        return dict(names=self.names, description=self.description, required=self.required)
+        return dict(names=self.names, dest=self.dest, description=self.description, required=self.required)
 
 
 class Command:

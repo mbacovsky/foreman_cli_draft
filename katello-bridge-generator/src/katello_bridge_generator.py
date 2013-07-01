@@ -37,7 +37,6 @@ class CustomJSONEncoder(json.JSONEncoder):
         else:
             return json.JSONEncoder.default(self, obj)
 
-
 class FakeParser:
     def __init__(cls):
         cls.options = []
@@ -60,9 +59,6 @@ class KatelloBridgeGenerator:
 
             subcmd = container.get_command(subcommand_name)
 
-            #if not isinstance(subcmd, CommandContainer):
-            #    continue
-
             cmd = Command(subcommand_name, subcmd.description)
 
             if isinstance(subcmd, CommandContainer):
@@ -77,14 +73,12 @@ class KatelloBridgeGenerator:
             for op in parser.options:
                 description = op[1].get('help', '')
                 required = '(required)' in description
-                description = description.replace(' (required)', '')
-                cmd.add_option(Option(list(op[0]), description, required=required))
+                cmd.add_option(Option(list(op[0]), description, required=required, dest=op[1].get('dest', None)))
             commands.append(cmd)
         return commands
 
 
 if __name__ == "__main__":
-    None
     container = CommandContainer()
     setup_admin(container, sys.argv[1])
     commands = KatelloBridgeGenerator(container).commands()
