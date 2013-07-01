@@ -2,5 +2,13 @@ source "http://rubygems.org"
 
 gemspec
 
-gem 'kartit'
+gem 'kartit', :path => '../'
 gem 'pry'
+
+group :test do
+  gem 'minitest', '4.7.4'
+  gem 'minitest-spec-context'
+  gem 'simplecov'
+  gem 'mocha'
+  gem 'rake'
+end

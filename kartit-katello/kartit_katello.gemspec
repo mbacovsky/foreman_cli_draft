@@ -22,4 +22,6 @@ EOF
   s.test_files = Dir.glob('test/tc_*.rb')
   s.require_paths = ["lib"]
 
+  s.add_dependency 'json'
+
 end
