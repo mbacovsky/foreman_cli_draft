@@ -19,6 +19,7 @@ describe KartitForeman::User do
 
     context "parameters" do
       it_should_accept "no arguments"
+      it_should_accept_search_params
     end
 
     context "output" do
@@ -74,9 +75,8 @@ describe KartitForeman::User do
     let(:cmd) { cmd_module::DeleteCommand.new("") }
 
     context "parameters" do
-      it_should_accept "name", ["--name=name"]
       it_should_accept "id", ["--id=1"]
-      it_should_fail_with "name or id missing", []
+      it_should_fail_with "id missing", []
     end
 
   end
@@ -87,10 +87,9 @@ describe KartitForeman::User do
     let(:cmd) { cmd_module::UpdateCommand.new("") }
 
     context "parameters" do
-      it_should_accept "name", ["--name=name", "--new-name=name2"]
-      it_should_accept "id", ["--id=1", "--new-name=name2"]
+      it_should_accept "id and name", ["--id=1", "--name=name"]
       it_should_fail_with "no params", []
-      it_should_fail_with "name or id missing", ["--new-name=name2"]
+      it_should_fail_with "id missing", ["--name=name"]
     end
 
   end

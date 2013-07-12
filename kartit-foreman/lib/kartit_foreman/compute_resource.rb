@@ -21,6 +21,7 @@ module KartitForeman
         end
       end
 
+      apipie_options
     end
 
 

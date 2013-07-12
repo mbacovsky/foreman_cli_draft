@@ -21,6 +21,7 @@ module KartitForeman
         end
       end
 
+      apipie_options
     end
 
 
@@ -71,14 +72,14 @@ module KartitForeman
       apipie_options
     end
 
-    subcommand "list", "List architectures.", KartitForeman::User::ListCommand
-    subcommand "info", "Detailed info about an architecture.", KartitForeman::User::InfoCommand
-    subcommand "create", "Create new architecture.", KartitForeman::User::CreateCommand
-    subcommand "update", "Update an architecture.", KartitForeman::User::UpdateCommand
-    subcommand "delete", "Delete an architecture.", KartitForeman::User::DeleteCommand
+    subcommand "list", "List users.", KartitForeman::User::ListCommand
+    subcommand "info", "Detailed info about an user.", KartitForeman::User::InfoCommand
+    subcommand "create", "Create new user.", KartitForeman::User::CreateCommand
+    subcommand "update", "Update an user.", KartitForeman::User::UpdateCommand
+    subcommand "delete", "Delete an user.", KartitForeman::User::DeleteCommand
   end
 
 end
 
-Kartit::MainCommand.subcommand 'user', "Manipulate Foreman's domains.", KartitForeman::User
+Kartit::MainCommand.subcommand 'user', "Manipulate Foreman's users.", KartitForeman::User
 

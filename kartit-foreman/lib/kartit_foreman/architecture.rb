@@ -20,7 +20,7 @@ module KartitForeman
       end
 
       resource ForemanApi::Resources::Architecture, "index"
-
+      apipie_options
     end
 
 

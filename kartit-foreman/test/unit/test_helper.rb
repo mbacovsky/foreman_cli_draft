@@ -33,7 +33,7 @@ module CommandTestHelper
   end
 
   def it_should_accept message, arguments=[]
-    it "should fail with " + message.to_s do
+    it "should accept " + message.to_s do
       cmd.output.adapter = Kartit::Output::Adapter::Silent.new
       cmd.run(arguments).must_equal 0
     end
@@ -70,6 +70,13 @@ module CommandTestHelper
     @with_params = arguments
     yield
     @with_params = nil
+  end
+
+  def it_should_accept_search_params
+    it_should_accept "search", ["--search=some_search"]
+    it_should_accept "per page", ["--per-page=1"]
+    it_should_accept "page", ["--page=2"]
+    it_should_accept "order", ["--order=order"]
   end
 
 end
