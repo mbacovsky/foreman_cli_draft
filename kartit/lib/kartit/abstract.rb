@@ -6,6 +6,8 @@ module Kartit
 
   class AbstractCommand < Clamp::Command
 
+    CFG_PATH = ['./config/cli_config.yml', '~/.foreman/cli_config.yml', '/etc/foreman/cli_config.yml']
+
     extend Autocompletion
 
     def run(arguments)
@@ -29,10 +31,17 @@ module Kartit
     def validate_options
     end
 
+    def config_path
+      CFG_PATH
+    end
+
     def load_settings
-      Kartit::Settings.load(YAML::load(File.open('/root/foreman_cli_draft/kartit/config/cli_config.yml')))
-      #Kartit::Settings.load(YAML::load(File.open('~/.foreman/cli_config.yml')))
-      #Kartit::Settings.load(YAML::load(File.open('/etc/foreman/cli_config.yml')))
+      config_path.reverse.each do |path|
+        if File.exists? path
+          config = YAML::load(File.open(path))
+          Kartit::Settings.load(config)
+        end
+      end
     end
 
     def output

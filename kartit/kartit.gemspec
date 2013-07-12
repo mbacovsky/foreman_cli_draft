@@ -25,5 +25,6 @@ EOF
 
   s.add_dependency 'clamp'
   s.add_dependency 'terminal-table'
+  s.add_dependency 'rest-client'
 
 end

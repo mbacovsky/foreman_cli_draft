@@ -5,6 +5,7 @@ gemspec
 gem 'kartit', :path => '.'
 gem 'kartit_foreman', :path => '../kartit-foreman'
 gem 'kartit_katello', :path => '../kartit-katello'
+gem 'kartit_signo', :path => '../kartit-signo'
 
 gem 'pry'
 gem 'pry-debugger'
@@ -14,4 +15,7 @@ group :test do
   gem 'minitest-spec-context'
   gem 'simplecov'
   gem 'mocha'
+  gem 'rake'
+  gem 'psych'
+  gem 'netrc'
 end

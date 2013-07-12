@@ -1,3 +1,8 @@
+:modules:
+    - kartit-foreman
+    - kartit-katello
+    - kartit-signo
+
 :host: 'https://localhost/'
 :username: 'admin'
 :password: 'changeme'

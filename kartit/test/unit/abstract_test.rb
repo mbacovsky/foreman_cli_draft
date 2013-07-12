@@ -1,4 +1,5 @@
 require_relative 'test_helper'
+require 'tempfile'
 
 
 describe Kartit::AbstractCommand do
@@ -36,9 +37,38 @@ describe Kartit::AbstractCommand do
       cmd = ModA::ModB::TestCmd.new ""
       cmd.exception_handler.must_be_instance_of Handler
     end
-
   end
 
+  context "settings loader" do
+
+    module ModA
+      module ModB
+        class TestCmd < Kartit::AbstractCommand
+          def config_path
+            settings1 = Tempfile.new 'settings'
+            settings1 << ":host: 'https://localhost/'\n"
+            settings1 << ":username: 'admin'\n"
+            settings1.close
+            settings2 = Tempfile.new 'settings2'
+            settings2 << ":host: 'https://localhost.localdomain/'\n"
+            settings2.close
+            [settings2.to_path, settings1.to_path]
+          end
+        end
+      end
+    end
+
+    it "should load settings and override based on priority" do
+
+      cmd = ModA::ModB::TestCmd.new ""
+      cmd.expects(:execute).returns(0) do
+        assert_equals 'https://localhost.localdomain/', Kartit::Settings["host"]
+      end
+      cmd.run([])
+
+    end
+
+  end
 
 end
 

@@ -8,5 +8,6 @@ require 'rubygems'
 require 'kartit'
 require 'kartit_foreman'
 require 'kartit_katello'
+require 'kartit_signo'
 
 exit Kartit::MainCommand.run || 0
