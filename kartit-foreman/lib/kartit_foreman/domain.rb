@@ -84,6 +84,7 @@ module KartitForeman
 
       success_message_for :update, "Domain parameter updated"
       success_message_for :create, "New domain parameter created"
+      failure_message "Could not set domain parameter"
 
       def base_action_params
         {

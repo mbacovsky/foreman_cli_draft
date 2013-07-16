@@ -1,17 +1,10 @@
+require 'kartit/messages'
 
 module Kartit::Apipie
 
   class WriteCommand < Command
 
-    def self.success_message msg=nil
-      @success_message = msg unless msg.nil?
-      @success_message
-    end
-
-    def self.failure_message msg=nil
-      @failure_message = msg unless msg.nil?
-      @failure_message
-    end
+    include Kartit::Messages
 
     def execute
       send_request
@@ -20,14 +13,6 @@ module Kartit::Apipie
     end
 
     protected
-
-    def success_message
-      self.class.success_message
-    end
-
-    def failure_message
-      self.class.failure_message
-    end
 
     def print_message
       msg = success_message
@@ -43,9 +28,6 @@ module Kartit::Apipie
       method_options
     end
 
-    def handle_exception e
-      exception_handler.handle_exception e, :heading => failure_message
-    end
   end
 
 end
