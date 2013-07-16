@@ -6,12 +6,7 @@ module Kartit::Apipie
     end
 
     def resource
-      config = {}
-      config[:base_url] = Kartit::Settings[:host]
-      config[:username] = Kartit::Settings[:username]
-      config[:password] = Kartit::Settings[:password]
-
-      self.class.resource.new(config)
+      self.class.resource.new(self.class.resource_config)
     end
 
     def action
@@ -20,10 +15,19 @@ module Kartit::Apipie
 
     module ClassMethods
 
+      def resource_config
+        config = {}
+        config[:base_url] = Kartit::Settings[:host]
+        config[:username] = Kartit::Settings[:username]
+        config[:password] = Kartit::Settings[:password]
+        config
+      end
+
       def resource resource=nil, action=nil
         @api_resource = resource unless resource.nil?
         @api_action = action unless action.nil?
-        @api_resource
+        return @api_resource if @api_resource
+        return superclass.resource
       end
 
       def action action=nil

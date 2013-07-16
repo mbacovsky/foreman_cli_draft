@@ -34,6 +34,10 @@ describe KartitForeman::Domain do
 
     let(:cmd) { KartitForeman::Domain::InfoCommand.new("") }
 
+    before :each do
+      cmd.class.stubs(:get_parameters).returns([])
+    end
+
     context "parameters" do
       it_should_accept "id", ["--id=1"]
       it_should_accept "name", ["--name=arch"]
@@ -89,4 +93,40 @@ describe KartitForeman::Domain do
     end
 
   end
+
+  context "parameters" do
+
+    context "SetCommand" do
+
+      before :each do
+        cmd.class.resource.stubs(:index).returns([[],""])
+      end
+
+      let(:cmd) { KartitForeman::Domain::SetParameterCommand.new("") }
+
+      context "parameters" do
+        it_should_accept "name, value and domain name", ["--name=name", "--value=val", "--domain-name=name"]
+        it_should_accept "name, value and domain id", ["--name=name", "--value=val", "--domain-id=id"]
+        it_should_fail_with "name missing", ["--value=val", "--domain-name=name"]
+        it_should_fail_with "value missing", ["--name=name", "--domain-name=name"]
+        it_should_fail_with "domain name or id missing", ["--name=name", "--value=val"]
+      end
+
+    end
+
+
+    context "DeleteCommand" do
+
+      let(:cmd) { KartitForeman::Domain::DeleteParameterCommand.new("") }
+
+      context "parameters" do
+        it_should_accept "name and domain name", ["--name=domain", "--domain-name=name"]
+        it_should_accept "name and domain id", ["--name=domain", "--domain-id=id"]
+        it_should_fail_with "name missing", ["--domain-name=name"]
+        it_should_fail_with "domain name or id missing", ["--name=name"]
+      end
+
+    end
+  end
+
 end

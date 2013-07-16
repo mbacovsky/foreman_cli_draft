@@ -8,13 +8,13 @@ module Kartit::Output
     end
 
     def field name, label, options={}, &formatter
-      options[:formatter] = formatter
+      options[:formatter] = formatter if block_given?
       options[:path] = current_path.clone
       output_definition.add_field name, label, options
     end
 
     def abstract_field name, label, options={}, &formatter
-      options[:record_formatter] = formatter
+      options[:record_formatter] = formatter if block_given?
       options[:path] = current_path.clone
       output_definition.add_field name, label, options
     end

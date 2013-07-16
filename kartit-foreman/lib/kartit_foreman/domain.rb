@@ -2,6 +2,7 @@ require 'kartit'
 require 'foreman_api'
 require 'kartit_foreman/formatters'
 require 'kartit_foreman/commands'
+require 'kartit_foreman/parameter'
 
 module KartitForeman
 
@@ -24,12 +25,15 @@ module KartitForeman
 
 
     class InfoCommand < KartitForeman::InfoCommand
-
-      def self.server_formatter server
-        server["name"] +" ("+ server["url"] +")" if server
-      end
+      extend KartitForeman::Parameter::Helpers
 
       resource ForemanApi::Resources::Domain, "show"
+
+      def retrieve_data
+        domain = super
+        domain["parameters"] = InfoCommand::get_parameters(domain)
+        domain
+      end
 
       heading "Domain info"
       output ListCommand.output_definition do
@@ -37,6 +41,7 @@ module KartitForeman
           field :fullname, "Full Name"
           field :dns_id, "DNS Id"
         end
+        field :parameters, "Parameters", &KartitForeman::Formatters.method(:parameters)
       end
 
     end
@@ -48,7 +53,7 @@ module KartitForeman
       failure_message "Could not create the domain"
       resource ForemanApi::Resources::Domain, "create"
 
-      apipie_options :without => ['domain_parameters_attributes'] #TODO: implement attribute usage
+      apipie_options :without => ['domain_parameters_attributes']
     end
 
 
@@ -58,7 +63,7 @@ module KartitForeman
       failure_message "Could not update the domain"
       resource ForemanApi::Resources::Domain, "update"
 
-      apipie_options :without => ['domain_parameters_attributes', 'name'] #TODO: implement attribute usage
+      apipie_options :without => ['domain_parameters_attributes', 'name']
     end
 
 
@@ -71,11 +76,43 @@ module KartitForeman
       apipie_options
     end
 
-    subcommand "list", "List architectures.", KartitForeman::Domain::ListCommand
-    subcommand "info", "Detailed info about an architecture.", KartitForeman::Domain::InfoCommand
-    subcommand "create", "Create new architecture.", KartitForeman::Domain::CreateCommand
-    subcommand "update", "Update an architecture.", KartitForeman::Domain::UpdateCommand
-    subcommand "delete", "Delete an architecture.", KartitForeman::Domain::DeleteCommand
+
+    class SetParameterCommand < KartitForeman::Parameter::SetCommand
+
+      option "--domain-name", "DOMAIN_NAME", "name of the domain the parameter is being set for"
+      option "--domain-id", "DOMAIN_ID", "id of the domain the parameter is being set for"
+
+      success_message_for :update, "Domain parameter updated"
+      success_message_for :create, "New domain parameter created"
+
+      def base_action_params
+        {
+          "domain_id" => domain_id || domain_name
+        }
+      end
+    end
+
+    class DeleteParameterCommand < KartitForeman::Parameter::DeleteCommand
+
+      option "--domain-name", "DOMAIN_NAME", "name of the domain the parameter is being deleted for"
+      option "--domain-id", "DOMAIN_ID", "id of the domain the parameter is being deleted for"
+
+      success_message "Domain parameter deleted"
+
+      def base_action_params
+        {
+          "domain_id" => domain_id || domain_name
+        }
+      end
+    end
+
+    subcommand "list", "List domains.", KartitForeman::Domain::ListCommand
+    subcommand "info", "Detailed info about a domain.", KartitForeman::Domain::InfoCommand
+    subcommand "create", "Create a new domain.", KartitForeman::Domain::CreateCommand
+    subcommand "update", "Update a domain.", KartitForeman::Domain::UpdateCommand
+    subcommand "delete", "Delete a domain.", KartitForeman::Domain::DeleteCommand
+    subcommand "set_parameter", "Create or update parameter for a domain.", KartitForeman::Domain::SetParameterCommand
+    subcommand "delete_parameter", "Delete parameter for a domain.", KartitForeman::Domain::DeleteParameterCommand
   end
 
 end

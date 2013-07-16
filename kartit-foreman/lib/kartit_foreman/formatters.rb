@@ -8,6 +8,13 @@ module KartitForeman
       ""
     end
 
+
+    def self.parameters params
+      params.collect do |p|
+        p["parameter"]["name"] +" => "+ p["parameter"]["value"]
+      end.join("\n")
+    end
+
   end
 end
 
