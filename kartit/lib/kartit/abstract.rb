@@ -9,6 +9,9 @@ module Kartit
     CFG_PATH = ['./config/cli_config.yml', '~/.foreman/cli_config.yml', '/etc/foreman/cli_config.yml']
 
     extend Autocompletion
+    class << self
+      attr_accessor :validation_block
+    end
 
     def run(arguments)
       load_settings
@@ -22,13 +25,20 @@ module Kartit
     def parse(arguments)
       super(arguments)
       validate_options
+    rescue Kartit::Validator::ValidationError => e
+      signal_usage_error e.message
     end
 
     def execute
       0
     end
 
+    def self.validate_options &block
+      self.validation_block = block
+    end
+
     def validate_options
+      validator.run &self.class.validation_block if self.class.validation_block
     end
 
     def config_path
@@ -54,6 +64,10 @@ module Kartit
 
     protected
 
+    def validator
+      @validator ||= Kartit::Validator.new(options)
+    end
+
     def handle_exception e
       exception_handler.handle_exception(e)
     end
@@ -70,7 +84,7 @@ module Kartit
     end
 
     def all_options
-      self.class.declared_options.inject({}) do |h, opt|
+      self.class.recognised_options.inject({}) do |h, opt|
         h[opt.attribute_name] = send(opt.read_method)
         h
       end

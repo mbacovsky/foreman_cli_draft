@@ -61,10 +61,8 @@ module KartitForeman
 
       apipie_options
 
-      def validate_options
-        signal_usage_error "--name is required." if name.nil?
-        signal_usage_error "--mask is required." if mask.nil?
-        signal_usage_error "--network is required." if network.nil?
+      validate_options do
+        all(:name, :mask, :network).required
       end
 
     end

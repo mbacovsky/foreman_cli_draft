@@ -13,9 +13,7 @@ module KartitForeman
     option "--name", "NAME", "resource name"
 
     def validate_options
-      if name.nil? and id.nil?
-        signal_usage_error "Either --id or --name is required."
-      end
+      validator.any(:name, :id).required
     end
 
     def request_params
@@ -40,9 +38,7 @@ module KartitForeman
     option "--new-name", "NEW_NAME", "new name for the resource", :attribute_name => :name
 
     def validate_options
-      if current_name.nil? and id.nil?
-        signal_usage_error "Either --id or --name is required."
-      end
+      validator.any(:current_name, :id).required
     end
 
     def request_params
@@ -64,9 +60,7 @@ module KartitForeman
     option "--name", "NAME", "resource name"
 
     def validate_options
-      if name.nil? and id.nil?
-        signal_usage_error "Either --id or --name is required."
-      end
+      validator.any(:name, :id).required
     end
 
     def request_params

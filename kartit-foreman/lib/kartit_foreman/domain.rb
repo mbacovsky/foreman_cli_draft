@@ -86,6 +86,11 @@ module KartitForeman
       success_message_for :create, "New domain parameter created"
       failure_message "Could not set domain parameter"
 
+      def validate_options
+        super
+        validator.any(:domain_name, :domain_id).required
+      end
+
       def base_action_params
         {
           "domain_id" => domain_id || domain_name
@@ -93,12 +98,18 @@ module KartitForeman
       end
     end
 
+
     class DeleteParameterCommand < KartitForeman::Parameter::DeleteCommand
 
       option "--domain-name", "DOMAIN_NAME", "name of the domain the parameter is being deleted for"
       option "--domain-id", "DOMAIN_ID", "id of the domain the parameter is being deleted for"
 
       success_message "Domain parameter deleted"
+
+      def validate_options
+        super
+        validator.any(:domain_name, :domain_id).required
+      end
 
       def base_action_params
         {

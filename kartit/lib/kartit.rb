@@ -1,5 +1,6 @@
 require 'kartit/version'
 require 'kartit/settings'
+require 'kartit/validator'
 require 'kartit/abstract'
 require 'kartit/main'
 

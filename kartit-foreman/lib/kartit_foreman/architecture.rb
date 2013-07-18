@@ -46,8 +46,8 @@ module KartitForeman
 
       apipie_options
 
-      def validate_options
-        signal_usage_error "--name is required." if name.nil?
+      validate_options do
+        option(:name).required
       end
     end
 

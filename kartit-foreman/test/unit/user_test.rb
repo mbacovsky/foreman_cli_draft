@@ -38,7 +38,6 @@ describe KartitForeman::User do
 
     context "parameters" do
       it_should_accept "id", ["--id=1"]
-      it_should_accept "name", ["--name=name"]
       it_should_fail_with "no arguments"
     end
 
@@ -87,9 +86,8 @@ describe KartitForeman::User do
     let(:cmd) { cmd_module::UpdateCommand.new("") }
 
     context "parameters" do
-      it_should_accept "id and name", ["--id=1", "--name=name"]
+      it_should_accept "id", ["--id=1"]
       it_should_fail_with "no params", []
-      it_should_fail_with "id missing", ["--name=name"]
     end
 
   end
