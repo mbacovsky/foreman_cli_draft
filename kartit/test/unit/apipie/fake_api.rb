@@ -89,7 +89,7 @@
                       "validator"=>"Must be Array",
                       "expected_type"=>"string",
                       "description"=>"",
-                      "required"=>false},]
+                      "required"=>true},]
                     }],
                 "full_description"=>""
               }

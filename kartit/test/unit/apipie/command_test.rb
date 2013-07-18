@@ -72,7 +72,19 @@ describe Kartit::Apipie::Command do
       it "should set description with html tags stripped" do
         option.description.must_equal 'filter results'
       end
+    end
 
+    context "required options" do
+      before :each do
+        cmd_class.resource FakeApi::Resources::Documented, :create
+        cmd_class.apipie_options
+      end
+
+      let(:required_options) { cmd_class.declared_options.reject{|opt| !opt.required?} }
+
+      it "should set required flag for the required options" do
+        required_options.map(&:attribute_name).sort.must_equal ["array_param"]
+      end
     end
 
     context "with hash params" do
@@ -82,11 +94,11 @@ describe Kartit::Apipie::Command do
       end
 
       it "should create options for all parameters except the hash" do
-        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["array_param", "name", "provider"]
+        cmd_class.declared_options.map(&:attribute_name).sort.must_equal ["array_param", "name", "provider"]
       end
 
       it "should name the options correctly" do
-        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["array_param", "name", "provider"]
+        cmd_class.declared_options.map(&:attribute_name).sort.must_equal ["array_param", "name", "provider"]
       end
     end
 
@@ -127,17 +139,17 @@ describe Kartit::Apipie::Command do
 
       it "should skip filtered options" do
         cmd_class.apipie_options :without => ["provider", "name"]
-        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["array_param"]
+        cmd_class.declared_options.map(&:attribute_name).sort.must_equal ["array_param"]
       end
 
       it "should skip single filtered option in array" do
         cmd_class.apipie_options :without => ["provider"]
-        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["array_param", "name"]
+        cmd_class.declared_options.map(&:attribute_name).sort.must_equal ["array_param", "name"]
       end
 
       it "should skip single filtered option" do
         cmd_class.apipie_options :without => "provider"
-        cmd_class.declared_options.collect{|opt| opt.attribute_name }.sort.must_equal ["array_param", "name"]
+        cmd_class.declared_options.map(&:attribute_name).sort.must_equal ["array_param", "name"]
       end
 
     end

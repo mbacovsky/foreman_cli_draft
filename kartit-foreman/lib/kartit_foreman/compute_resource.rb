@@ -77,7 +77,7 @@ module KartitForeman
       apipie_options
 
       validate_options do
-        option(:name).required
+        all(:name, :url, :provider).required
       end
     end
 

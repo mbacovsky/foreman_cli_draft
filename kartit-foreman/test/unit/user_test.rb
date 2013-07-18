@@ -58,12 +58,12 @@ describe KartitForeman::User do
     let(:cmd) { cmd_module::CreateCommand.new("") }
 
     context "parameters" do
-      it_should_accept "all required", ["--login=login", "--firstname=fname", "--lastname=lname", "--mail=mail", "--password=paswd"]
-      it_should_fail_with "login missing", ["--firstname=fname", "--lastname=lname", "--mail=mail", "--password=paswd"]
-      it_should_fail_with "first name missing", ["--login=login", "--lastname=lname", "--mail=mail", "--password=paswd"]
-      it_should_fail_with "last name missing", ["--login=login", "--firstname=fname", "--mail=mail", "--password=paswd"]
-      it_should_fail_with "mail missing", ["--login=login", "--firstname=fname", "--lastname=lname", "--password=paswd"]
-      it_should_fail_with "password missing", ["--login=login", "--firstname=fname", "--lastname=lname", "--mail=mail"]
+      it_should_accept "all required", ["--login=login", "--mail=mail", "--password=paswd", "--auth-source-id=1"]
+      it_should_accept "all required plus names", ["--login=login", "--firstname=fname", "--lastname=lname", "--mail=mail", "--password=paswd", "--auth-source-id=1"]
+      it_should_fail_with "login missing", ["--firstname=fname", "--lastname=lname", "--mail=mail", "--password=paswd", "--auth-source-id=1"]
+      it_should_fail_with "mail missing", ["--login=login", "--firstname=fname", "--lastname=lname", "--password=paswd", "--auth-source-id=1"]
+      it_should_fail_with "password missing", ["--login=login", "--firstname=fname", "--lastname=lname", "--mail=mail", "--auth-source-id=1"]
+      it_should_fail_with "auth source missing", ["--login=login", "--firstname=fname", "--lastname=lname", "--mail=mail", "--password=paswd"]
     end
 
   end

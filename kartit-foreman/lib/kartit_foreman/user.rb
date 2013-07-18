@@ -50,11 +50,6 @@ module KartitForeman
       resource ForemanApi::Resources::User, "create"
 
       apipie_options
-
-      validate_options do
-        all(:login, :firstname, :lastname, :mail, :password).required
-      end
-
     end
 
 
@@ -65,10 +60,6 @@ module KartitForeman
       resource ForemanApi::Resources::User, "update"
 
       apipie_options
-
-      validate_options do
-        option(:id).required
-      end
     end
 
 

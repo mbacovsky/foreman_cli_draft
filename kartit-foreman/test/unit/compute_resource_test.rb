@@ -56,8 +56,10 @@ describe KartitForeman::ComputeResource do
     let(:cmd) { KartitForeman::ComputeResource::CreateCommand.new("") }
 
     context "parameters" do
-      it_should_accept "name", ["--name=arch"]
-      it_should_fail_with "name missing", []
+      it_should_accept "name, url, provider", ["--name=arch", "--url=http://some.org", "--provider=Libvirt"]
+      it_should_fail_with "name missing", ["--url=http://some.org", "--provider=Libvirt"]
+      it_should_fail_with "url missing", ["--name=arch", "--provider=Libvirt"]
+      it_should_fail_with "provider missing", ["--name=arch", "--url=http://some.org"]
     end
 
   end

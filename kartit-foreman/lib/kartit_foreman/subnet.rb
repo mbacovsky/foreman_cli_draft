@@ -60,11 +60,6 @@ module KartitForeman
       resource ForemanApi::Resources::Subnet, "create"
 
       apipie_options
-
-      validate_options do
-        all(:name, :mask, :network).required
-      end
-
     end
 
 

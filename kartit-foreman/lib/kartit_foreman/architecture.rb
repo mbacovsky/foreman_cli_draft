@@ -45,10 +45,6 @@ module KartitForeman
       resource ForemanApi::Resources::Architecture, "create"
 
       apipie_options
-
-      validate_options do
-        option(:name).required
-      end
     end
 
 

@@ -63,7 +63,7 @@ module KartitForeman
       failure_message "Could not update the domain"
       resource ForemanApi::Resources::Domain, "update"
 
-      apipie_options :without => ['domain_parameters_attributes', 'name']
+      apipie_options :without => ['domain_parameters_attributes', 'name', 'id']
     end
 
 

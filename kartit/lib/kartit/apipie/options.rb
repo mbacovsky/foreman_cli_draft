@@ -55,6 +55,7 @@ module Kartit::Apipie
           option_switches(param),
           option_type(param),
           option_desc(param),
+          option_opts(param),
           &option_formatter(param)
         )
       end
@@ -71,6 +72,12 @@ module Kartit::Apipie
         desc = param["description"].gsub(/<\/?[^>]+?>/, "")
         return " " if desc.empty?
         return desc
+      end
+
+      def option_opts param
+        opts = {}
+        opts[:required] = true if param["required"]
+        return opts
       end
 
       def option_formatter param
