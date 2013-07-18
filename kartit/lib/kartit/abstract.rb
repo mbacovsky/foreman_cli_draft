@@ -65,6 +65,7 @@ module Kartit
     protected
 
     def validator
+      options = self.class.recognised_options.collect{|opt| opt.of(self)}
       @validator ||= Kartit::Validator.new(options)
     end
 

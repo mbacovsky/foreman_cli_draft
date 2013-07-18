@@ -11,10 +11,13 @@ module Kartit
       attr_reader :rejected_msg, :required_msg
 
       def initialize(options, to_check)
-        @options = options
         @to_check = to_check
         @rejected_msg = ""
         @required_msg = ""
+
+        @options = options.inject({}) do |hash, opt|
+          hash.update({opt.attribute.attribute_name => opt})
+        end
       end
 
       def rejected(args={})
@@ -33,9 +36,21 @@ module Kartit
 
       protected
 
+      def get_option(name)
+        name = name.to_s
+        raise "Unknown option name '%s'" % name unless @options.has_key? name
+        @options[name]
+      end
+
+      def option_passed?(option_name)
+        !get_option(option_name).get.nil?
+      end
+
       def option_switches(opts=nil)
         opts ||= @to_check
-        opts
+        opts.collect do |option_name|
+          get_option(option_name).attribute.long_switch || get_option(option_name).attribute.switches.first
+        end
       end
 
     end
@@ -50,7 +65,7 @@ module Kartit
 
       def exist?
         @to_check.each do |opt|
-          return false unless @options.has_key? opt.to_s
+          return false unless option_passed?(opt)
         end
         return true
       end
@@ -67,7 +82,7 @@ module Kartit
 
       def exist?
         @to_check.each do |opt|
-          return true if @options.has_key? opt.to_s
+          return true if option_passed?(opt)
         end
         return false
       end

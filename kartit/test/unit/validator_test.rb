@@ -8,19 +8,34 @@ require_relative 'test_helper'
 
 describe "constraints" do
 
-  let(:options) {{
-    'optA' => 'some value',
-    'optB' => 'some value',
-    'optC' => 'some value'
-  }}
+  class FakeCmd < Clamp::Command
+    def initialize
+      super("")
+      @option_a = 1
+      @option_b = 1
+      @option_c = 1
+      @option_d = nil
+      @option_e = nil
+    end
+  end
 
- describe Kartit::Validator::BaseConstraint do
+  let(:cmd) {
+    FakeCmd.new
+  }
+
+  let(:option_names) { ["a", "b", "c", "d", "e"] }
+  let(:options_def) {
+    option_names.collect{ |n| Clamp::Option::Definition.new(["-"+n, "--option-"+n], n.upcase, "Option "+n.upcase) }
+  }
+  let(:options) { options_def.collect{|d| d.of(cmd) } }
+
+  describe Kartit::Validator::BaseConstraint do
 
     let(:cls) { Kartit::Validator::BaseConstraint }
 
     describe "exist?" do
       it "throws not implemented error" do
-        constraint = cls.new(options, [:optA, :optB, :optC])
+        constraint = cls.new(options, [:option_a, :option_b, :option_c])
         proc{ constraint.exist? }.must_raise NotImplementedError
       end
     end
@@ -81,12 +96,12 @@ describe "constraints" do
 
     describe "exist?" do
       it "should return true when all the options exist" do
-        constraint = cls.new(options, [:optA, :optB, :optC])
+        constraint = cls.new(options, [:option_a, :option_b, :option_c])
         constraint.exist?.must_equal true
       end
 
       it "should return false when one of the options is missing" do
-        constraint = cls.new(options, [:optA, :optB, :optC, :optD])
+        constraint = cls.new(options, [:option_a, :option_b, :option_c, :option_d])
         constraint.exist?.must_equal false
       end
     end
@@ -99,12 +114,12 @@ describe "constraints" do
 
     describe "exist?" do
       it "should return true when one of the options exist" do
-        constraint = cls.new(options, [:optA, :optD, :optE])
+        constraint = cls.new(options, [:option_a, :option_d, :option_e])
         constraint.exist?.must_equal true
       end
 
       it "should return false when all the options are missing" do
-        constraint = cls.new(options, [:optD, :optE])
+        constraint = cls.new(options, [:option_d, :option_e])
         constraint.exist?.must_equal false
       end
     end
