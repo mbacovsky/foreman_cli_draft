@@ -42,12 +42,10 @@ describe KartitForeman::Architecture do
     end
 
     context "output" do
-      with_params ["--id=1"] do
-
-        it_should_print_n_records 1
-        it_should_print_column "Name"
-        it_should_print_column "Id"
-      end
+      let(:with_params) { ["--id=1"] }
+      it_should_print_n_records 1
+      it_should_print_column "Name"
+      it_should_print_column "Id"
     end
 
   end

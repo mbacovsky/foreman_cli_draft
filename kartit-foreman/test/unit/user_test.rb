@@ -42,12 +42,10 @@ describe KartitForeman::User do
     end
 
     context "output" do
-      with_params ["--id=1"] do
-
-        it_should_print_n_records 1
-        it_should_print_columns ["Id", "Login", "Name", "Email"]
-        it_should_print_columns ["Last login", "Created at", "Updated at"]
-      end
+      let(:with_params) { ["--id=1"] }
+      it_should_print_n_records 1
+      it_should_print_columns ["Id", "Login", "Name", "Email"]
+      it_should_print_columns ["Last login", "Created at", "Updated at"]
     end
 
   end

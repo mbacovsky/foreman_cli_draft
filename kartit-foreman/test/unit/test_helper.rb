@@ -40,8 +40,9 @@ module CommandTestHelper
   end
 
   def it_should_print_column column_name, arguments=nil
-    arguments ||= @with_params || []
     it "should print column " + column_name do
+      arguments ||= respond_to?(:with_params) ? with_params : []
+
       cmd.output.adapter = TestAdapter.new
       proc { cmd.run(arguments) }.must_output /.*##{column_name}#.*/
     end
@@ -54,9 +55,9 @@ module CommandTestHelper
   end
 
   def it_should_print_n_records count=nil, arguments=nil
-    arguments ||= @with_params || []
-
     it "should print " + count.to_s + " records" do
+      arguments ||= respond_to?(:with_params) ? with_params : []
+
       cmd.output.adapter = TestAdapter.new
       count ||= expected_record_count rescue 0
       out, err = capture_io do
@@ -64,12 +65,6 @@ module CommandTestHelper
       end
       out.split(/\n/).length.must_equal count+1 # plus 1 for line with column headers
     end
-  end
-
-  def with_params arguments
-    @with_params = arguments
-    yield
-    @with_params = nil
   end
 
   def it_should_accept_search_params
