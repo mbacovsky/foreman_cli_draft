@@ -34,3 +34,22 @@ class ApipieResourceMock
 
 end
 
+
+class ApipieDisabledResourceMock
+
+  def initialize resource
+    @resource = resource
+    @resource.doc["methods"].each do |method|
+      self.stubs(method["name"]).raises(RestClient::ResourceNotFound)
+    end
+  end
+
+  def doc
+    @resource.doc
+  end
+
+  def new attrs
+    return self
+  end
+
+end
