@@ -44,6 +44,8 @@ class FakeParser:
     def add_option(self, *args, **kvargs):
         self.options.append([args, kvargs])
 
+    def enable_epilog_formatter(self, enable):
+        None
 
 class KatelloBridgeGenerator:
     def __init__(self, container):
